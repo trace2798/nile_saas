@@ -50,14 +50,14 @@ const page: FC<pageProps> = async ({}) => {
             className="group space-y-3 mt-3"
             key={tenant.id}
           >
-          <Card
-            key={tenant.id}
-            className="p-5 text-center group-hover:text-indigo-400"
-          >
-            <h1>{tenant.name}</h1>
-            <h1>{tenant.id}</h1>
-          </Card>
-           </Link>
+            <Card
+              key={tenant.id}
+              className="p-5 text-center group-hover:text-indigo-400"
+            >
+              <h1>{tenant.name}</h1>
+              <h1>{tenant.id}</h1>
+            </Card>
+          </Link>
         ))}
       </div>
     </>
