@@ -13,6 +13,7 @@ interface FormInputProps {
   id: string;
   label?: string;
   type?: string;
+  tenant_id?: string;
   placeholder?: string;
   required?: boolean;
   disabled?: boolean;

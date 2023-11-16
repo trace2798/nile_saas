@@ -1,11 +1,8 @@
 "use client";
 
 import { X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { ElementRef, useRef } from "react";
-import { toast } from "sonner";
-
-// import { createBoard } from "@/actions/create-board";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -13,21 +10,21 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useAction } from "@/hooks/use-action";
 import { useProModal } from "@/hooks/use-pro-modal";
 
+import { createBoard } from "@/actions/create-board";
+import { useAction } from "@/hooks/use-action";
+import { toast } from "sonner";
 import { FormInput } from "./form-input";
 import { FormPicker } from "./form-picker";
 import { FormSubmit } from "./form-submit";
-// import { FormSubmit } from "./form-submit";
-// import { FormPicker } from "./form-picker";
 
 interface FormPopoverProps {
   children: React.ReactNode;
   side?: "left" | "right" | "top" | "bottom";
   align?: "start" | "center" | "end";
   sideOffset?: number;
-};
+}
 
 export const FormPopover = ({
   children,
@@ -35,34 +32,34 @@ export const FormPopover = ({
   align,
   sideOffset = 0,
 }: FormPopoverProps) => {
+  const params = useParams();
   const proModal = useProModal();
   const router = useRouter();
   const closeRef = useRef<ElementRef<"button">>(null);
 
-  // const { execute, fieldErrors } = useAction(createBoard, {
-  //   onSuccess: (data) => {
-  //     toast.success("Board created!");
-  //     closeRef.current?.click();
-  //     router.push(`/board/${data.id}`);
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error);
-  //     proModal.onOpen();
-  //   }
-  // });
+  const { execute, fieldErrors } = useAction(createBoard, {
+    onSuccess: (data) => {
+      toast.success("Board created!");
+      closeRef.current?.click();
+      router.push(`/board/${data.id}`);
+    },
+    onError: (error) => {
+      toast.error(error);
+      console.log(error);
+      // proModal.onOpen();
+    },
+  });
 
-  // const onSubmit = (formData: FormData) => {
-  //   const title = formData.get("title") as string;
-  //   const image = formData.get("image") as string;
-
-  //   execute({ title, image });
-  // }
+  const onSubmit = (formData: FormData) => {
+    const title = formData.get("title") as string;
+    const image = formData.get("image") as string;
+    const tenant_id = params.organizationId as string;
+    execute({ title, image, tenant_id });
+  };
 
   return (
     <Popover>
-      <PopoverTrigger asChild>
-        {children}
-      </PopoverTrigger>
+      <PopoverTrigger asChild>{children}</PopoverTrigger>
       <PopoverContent
         align={align}
         className="w-80 pt-3"
@@ -80,22 +77,17 @@ export const FormPopover = ({
             <X className="h-4 w-4" />
           </Button>
         </PopoverClose>
-        <form  className="space-y-4">
-     <div className="space-y-4">
-            <FormPicker
-              id="image"
-          
-            />
+        <form action={onSubmit} className="space-y-4">
+          <div className="space-y-4">
+            <FormPicker id="image" errors={fieldErrors} />
             <FormInput
               id="title"
               label="Board title"
               type="text"
-              
+              errors={fieldErrors}
             />
           </div>
-               <FormSubmit className="w-full">
-            Create
-          </FormSubmit>
+          <FormSubmit className="w-full">Create</FormSubmit>
         </form>
       </PopoverContent>
     </Popover>

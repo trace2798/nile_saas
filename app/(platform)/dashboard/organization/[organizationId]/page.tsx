@@ -33,7 +33,7 @@ const OrganizationIdPage = async ({ params }: { params: { organizationId: string
       <Separator className="my-4" />
       <div className="px-2 md:px-4">
         <Suspense >
-          <BoardList />
+          <BoardList organizationId={params.organizationId} />
         </Suspense>
       </div>
     </div>
