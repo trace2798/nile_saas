@@ -59,12 +59,12 @@ console.log(title, image, tenant_id)
     board = await nile.db("board").insert({
       tenant_id: data.tenant_id,
       title: data.title,
-      imageid: data.image[0],
-      imagethumburl: data.image[1],
-      imagefullurl: data.image[2],
-      imageusername: data.image[3],
-      imagelinkhtml: data.image[4],
-    });
+      imageid: imageId,
+      imagethumburl: imageThumbUrl,
+      imagefullurl: imageFullUrl,
+      imageusername: imageUserName,
+      imagelinkhtml: imageLinkHTML,
+    }).returning("*");
     console.log(board);
     // if (!isPro) {
     //  await incrementAvailableCount();
@@ -84,7 +84,7 @@ console.log(title, image, tenant_id)
   }
 
   // revalidatePath(`/board/${board.id}`);
-  return board;
+  return { data: board };
 };
 
 export const createBoard = createSafeAction(CreateBoard, handler);
