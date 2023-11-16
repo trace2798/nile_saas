@@ -18,7 +18,7 @@ const OrganizationIdPage = async ({ params }: { params: { organizationId: string
   configureNile(cookies().get("authData"), params.organizationId);
 
   console.log(
-    "showing todos for user " + nile.userId + " for tenant " + nile.tenantId
+    "showing boards for user " + nile.userId + " for tenant " + nile.tenantId
   );
   const resp = await nile.api.tenants.getTenant();
   console.log(resp)
