@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { ProModal } from "@/components/modals/pro-modal";
+import { OrganizationModal } from "../modals/orgs-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -16,7 +17,7 @@ export const ModalProvider = () => {
 
   return (
     <>
-
+<OrganizationModal/>
       <ProModal />
     </>
   )
