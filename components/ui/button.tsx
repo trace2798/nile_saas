@@ -4,8 +4,15 @@ import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
+/**
+ * Defines CSS class variants for buttons.
+ *
+ * Includes variants for visual style, size,
+ * and state. Passed to cva() utility to generate
+ * className utilities.
+ */
 const buttonVariants = cva(
-  "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
+  "inline-flex items-center justify-center rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50",
   {
     variants: {
       variant: {
@@ -18,12 +25,16 @@ const buttonVariants = cva(
           "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
+        primary: "bg-sky-700 text-primary-foreground hover:bg-sky-700/90",
+        transparent: "bg-transparent text-white hover:bg-white/20",
+        gray: "bg-neutral-200 text-secondary-foreground hover:bg-neutral-300"
       },
       size: {
         default: "h-10 px-4 py-2",
         sm: "h-9 rounded-md px-3",
         lg: "h-11 rounded-md px-8",
         icon: "h-10 w-10",
+        inline: "h-auto px-2 py-1.5 text-sm"
       },
     },
     defaultVariants: {
@@ -33,12 +44,24 @@ const buttonVariants = cva(
   }
 )
 
+/**
+ * Props for the Button component.
+ * Extends HTMLButtonElement props and includes:
+ * - variant: Visual style variant
+ * - size: Size variant
+ * - asChild: Render as child rather than button element
+ */
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
   asChild?: boolean
 }
 
+/**
+ * Button component that renders a `<button>` or `<Slot>` element with styles.
+ * Accepts `variant`, `size`, and other props. Renders as a `<Slot>` if `asChild`
+ * prop is true, otherwise renders a `<button>`.
+ */
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button"

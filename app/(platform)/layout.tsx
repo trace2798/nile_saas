@@ -1,4 +1,4 @@
-import { Toaster } from "@/components/ui/toaster";
+import { Toaster } from "sonner";
 
 const PlatformLayout = ({ children }: { children: React.ReactNode }) => {
   return (
