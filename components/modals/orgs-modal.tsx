@@ -71,7 +71,7 @@ export function OrganizationModal({
     <Dialog open={orgs.isOpen} onOpenChange={orgs.onClose}>
       <DialogContent>
         <DialogHeader className="border-b pb-3">
-          <h2 className="text-lg font-medium">Add a Tenant</h2>
+          <h2 className="text-lg font-medium">Create an Organization</h2>
         </DialogHeader>
         <Form {...form}>
           <form
@@ -104,7 +104,7 @@ export function OrganizationModal({
                 />
                 <Button disabled={isLoading} className="mt-5">
                   {isLoading && <Spinner />}
-                  Create a Tenant
+                  Create an Org
                 </Button>
               </div>
             </div>

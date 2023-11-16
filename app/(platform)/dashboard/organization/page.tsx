@@ -8,6 +8,7 @@ import { FC } from "react";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import AddOrgButton from "./_components/add-org-button";
+import Link from "next/link";
 
 interface pageProps {}
 
@@ -44,11 +45,11 @@ const page: FC<pageProps> = async ({}) => {
           </>
         )}
         {tenants.map((tenant: { id: string; name: string }) => (
-          // <Link
-          //   href={`/dashboard/${tenant.id}`}
-          //   className="group space-y-3 mt-3"
-          //   key={tenant.id}
-          // >
+          <Link
+            href={`/dashboard/organization/${tenant.id}`}
+            className="group space-y-3 mt-3"
+            key={tenant.id}
+          >
           <Card
             key={tenant.id}
             className="p-5 text-center group-hover:text-indigo-400"
@@ -56,7 +57,7 @@ const page: FC<pageProps> = async ({}) => {
             <h1>{tenant.name}</h1>
             <h1>{tenant.id}</h1>
           </Card>
-          // </Link>
+           </Link>
         ))}
       </div>
     </>
