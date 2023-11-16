@@ -81,7 +81,7 @@ export const Sidebar = ({
           variant="ghost"
           className="ml-auto"
         >
-          <Link href="/select-org">
+          <Link href="/organization">
             <Plus
               className="h-4 w-4"
             />

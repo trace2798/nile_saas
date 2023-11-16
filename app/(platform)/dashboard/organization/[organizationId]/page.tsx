@@ -6,6 +6,8 @@ import { cookies } from "next/headers";
 // import { Info } from "./_components/info";
 // import { BoardList } from "./_components/board-list";
 import { Suspense } from "react";
+import { Info } from "./_components/info";
+import { BoardList } from "./_components/board-list";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -27,11 +29,11 @@ const OrganizationIdPage = async ({ params }: { params: { organizationId: string
 //   const isPro = await checkSubscription();
   return (
     <div className="w-full mb-20">
-      {/* <Info isPro={isPro} /> */}
+      <Info name={tenant.name}  />
       <Separator className="my-4" />
       <div className="px-2 md:px-4">
         <Suspense >
-          {/* <BoardList /> */}
+          <BoardList />
         </Suspense>
       </div>
     </div>
