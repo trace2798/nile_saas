@@ -1,0 +1,25 @@
+CREATE TABLE "board" (
+   "id" UUID DEFAULT (gen_random_uuid()),
+    "tenant_id" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "imageId" TEXT NOT NULL,
+    "imageThumbUrl" TEXT,
+    "imageFullUrl" TEXT,
+    "imageUserName" TEXT,
+    "imageLinkHTML" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "board_pkey" PRIMARY KEY ("id", "tenant_id")
+);
+
+
+CREATE TABLE "list" (
+    "id" UUID DEFAULT (gen_random_uuid()),
+    "tenant_id" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "order" INT,
+    "board_id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "list_pkey" PRIMARY KEY ("id", "tenant_id"),
+    CONSTRAINT "list_board_id_fkey" FOREIGN KEY ("board_id", "tenant_id") REFERENCES "board"("id", "tenant_id") ON DELETE CASCADE
+);
