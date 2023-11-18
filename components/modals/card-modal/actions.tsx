@@ -6,7 +6,7 @@ import { useParams, useRouter } from "next/navigation";
 
 import { CardWithList } from "@/types";
 import { useAction } from "@/hooks/use-action";
-// import { copyCard } from "@/actions/copy-card";
+import { copyCard } from "@/actions/copy-card";
 import { Button } from "@/components/ui/button";
 import { deleteCard } from "@/actions/delete-card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -20,18 +20,18 @@ export const Actions = ({ data }: ActionsProps) => {
   const params = useParams();
   const cardModal = useCardModal();
   const router = useRouter();
-  // const {
-  //   execute: executeCopyCard,
-  //   isLoading: isLoadingCopy,
-  // } = useAction(copyCard, {
-  //   onSuccess: (data) => {
-  //     toast.success(`Card "${data.title}" copied`);
-  //     cardModal.onClose();
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error);
-  //   },
-  // });
+  const {
+    execute: executeCopyCard,
+    isLoading: isLoadingCopy,
+  } = useAction(copyCard, {
+    onSuccess: (data) => {
+      toast.success(`Card "${data[0].title}" copied`);
+      cardModal.onClose();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const { execute: executeDeleteCard, isLoading: isLoadingDelete } = useAction(
     deleteCard,
@@ -46,14 +46,16 @@ export const Actions = ({ data }: ActionsProps) => {
     }
   );
 
-  // const onCopy = () => {
-  //   const boardId = params.boardId as string;
+  const onCopy = () => {
+    const boardId = params.boardId as string;
 
-  //   executeCopyCard({
-  //     id: data.id,
-  //     boardId,
-  //   });
-  // };
+    executeCopyCard({
+      id: data.id,
+      boardId,
+      tenant_id: data.tenant_id,
+      list_id: data.list_id,
+    });
+  };
 
   const onDelete = () => {
     const boardId = params.boardId as string;
@@ -69,8 +71,8 @@ export const Actions = ({ data }: ActionsProps) => {
     <div className="space-y-2 mt-2">
       <p className="text-xs font-semibold">Actions</p>
       <Button
-        // onClick={onCopy}
-        // disabled={isLoadingCopy}
+        onClick={onCopy}
+        disabled={isLoadingCopy}
         variant="gray"
         className="w-full justify-start"
         size="inline"
