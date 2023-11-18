@@ -13,6 +13,7 @@ import { InputType, ReturnType } from "./types";
 import { configureNile } from "@/lib/AuthUtils";
 import { cookies } from "next/headers";
 import nile from "@/lib/NileServer";
+import { List } from "@/types";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
   // const { userId, orgId } = auth();
@@ -33,7 +34,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   }
 
   // const { id, boardId } = data;
-  let list;
+  let list: List[];
 
   try {
     // const listToCopy = await db.list.findUnique({
