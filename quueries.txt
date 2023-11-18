@@ -23,3 +23,33 @@ CREATE TABLE "list" (
     CONSTRAINT "list_pkey" PRIMARY KEY ("id", "tenant_id"),
     CONSTRAINT "list_board_id_fkey" FOREIGN KEY ("board_id", "tenant_id") REFERENCES "board"("id", "tenant_id") ON DELETE CASCADE
 );
+
+
+CREATE TABLE "card" (
+    "id" UUID DEFAULT (gen_random_uuid()),
+    "tenant_id" UUID NOT NULL,
+    "title" TEXT NOT NULL,
+    "order" INT,
+    "description" TEXT
+    "list_id" UUID NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "card_pkey" PRIMARY KEY ("id", "tenant_id"),
+    CONSTRAINT "card_list_id_fkey" FOREIGN KEY ("list_id", "tenant_id") REFERENCES "list"("id", "tenant_id") ON DELETE CASCADE
+);
+
+//not working
+CREATE TABLE "auditlog" (
+    "id" UUID DEFAULT (gen_random_uuid()),
+    "tenant_id" UUID NOT NULL,
+    "action" ACTION,
+    "entity_id" TEXT,
+    "entity_type" ENTITY_TYPE,
+    "entity_title" TEXT,
+    "user_id" TEXT,
+    "user_image" TEXT,
+    "user_name" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    CONSTRAINT "auditlog_pkey" PRIMARY KEY ("id", "tenant_id")
+);

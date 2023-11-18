@@ -55,12 +55,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     console.log(lastList);
     const newOrder = lastList ? lastList.order + 1 : 1;
 
-    list = await nile.db("list").insert({
-      title: title,
-      board_id: boardId,
-      tenant_id: tenant_id,
-      order: newOrder,
-    });
+    list = await nile
+      .db("list")
+      .insert({
+        title: title,
+        board_id: boardId,
+        tenant_id: tenant_id,
+        order: newOrder,
+      })
+      .returning("*");
 
     // await createAuditLog({
     //   entityTitle: list.title,

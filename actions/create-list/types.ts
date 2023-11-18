@@ -6,4 +6,4 @@ import { CreateList } from "./schema";
 import { List } from "@/types";
 
 export type InputType = z.infer<typeof CreateList>;
-export type ReturnType = ActionState<InputType, List>;
+export type ReturnType = ActionState<InputType, List[]>;
