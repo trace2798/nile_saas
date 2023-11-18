@@ -12,13 +12,15 @@ import { useAction } from "@/hooks/use-action";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormInput } from "@/components/form/form-input";
 
-interface HeaderProps {
-  data: CardWithList;
+interface CardWithListAndTitle extends CardWithList {
+  listTitle: string;
 }
 
-export const Header = ({
-  data,
-}: HeaderProps) => {
+interface HeaderProps {
+  data: CardWithListAndTitle;
+}
+
+export const Header = ({ data }: HeaderProps) => {
   const queryClient = useQueryClient();
   const params = useParams();
 
@@ -61,8 +63,9 @@ export const Header = ({
     //   boardId,
     //   id: data.id,
     // });
-  }
-
+   
+  };
+  console.log(data);
   return (
     <div className="flex items-start gap-x-3 mb-6 w-full">
       <Layout className="h-5 w-5 mt-1 text-neutral-700" />
@@ -77,7 +80,7 @@ export const Header = ({
           />
         </form>
         <p className="text-sm text-muted-foreground">
-          in list <span className="underline">{data.list.title}</span>
+          in list <span className="underline">{data.listTitle}</span>
         </p>
       </div>
     </div>

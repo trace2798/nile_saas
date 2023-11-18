@@ -36,7 +36,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   // }
 
   const { title, image, tenant_id } = data;
-console.log(title, image, tenant_id)
+  console.log(title, image, tenant_id);
   const [imageId, imageThumbUrl, imageFullUrl, imageLinkHTML, imageUserName] =
     image.split("|");
 
@@ -55,16 +55,19 @@ console.log(title, image, tenant_id)
   let board;
 
   try {
-    console.log(data.title, image)
-    board = await nile.db("board").insert({
-      tenant_id: data.tenant_id,
-      title: data.title,
-      imageid: imageId,
-      imagethumburl: imageThumbUrl,
-      imagefullurl: imageFullUrl,
-      imageusername: imageUserName,
-      imagelinkhtml: imageLinkHTML,
-    }).returning("*");
+    console.log(data.title, image);
+    board = await nile
+      .db("board")
+      .insert({
+        tenant_id: data.tenant_id,
+        title: data.title,
+        imageid: imageId,
+        imagethumburl: imageThumbUrl,
+        imagefullurl: imageFullUrl,
+        imageusername: imageUserName,
+        imagelinkhtml: imageLinkHTML,
+      })
+      .returning("*");
     console.log(board);
     // if (!isPro) {
     //  await incrementAvailableCount();
@@ -77,7 +80,7 @@ console.log(title, image, tenant_id)
     //   action: ACTION.CREATE,
     // })
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return {
       error: "Failed to create.",
     };

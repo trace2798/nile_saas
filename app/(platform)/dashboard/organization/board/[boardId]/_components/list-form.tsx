@@ -36,7 +36,7 @@ export const ListForm = ({ tenant_id }: { tenant_id: string }) => {
 
   const { execute, fieldErrors } = useAction(createList, {
     onSuccess: (data) => {
-      toast.success(`List "${data.title}" created`);
+      toast.success(`List "${data[0].title}" created`);
       disableEditing();
       router.refresh();
     },
