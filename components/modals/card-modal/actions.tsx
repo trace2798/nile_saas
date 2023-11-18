@@ -3,7 +3,6 @@
 import { toast } from "sonner";
 import { Copy, Trash } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-
 import { CardWithList } from "@/types";
 import { useAction } from "@/hooks/use-action";
 import { copyCard } from "@/actions/copy-card";

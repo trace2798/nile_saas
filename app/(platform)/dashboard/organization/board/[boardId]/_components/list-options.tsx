@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { useAction } from "@/hooks/use-action";
 import { Button } from "@/components/ui/button";
-// import { copyList } from "@/actions/copy-list";
+import { copyList } from "@/actions/copy-list";
 // import { deleteList } from "@/actions/delete-list";
 import { FormSubmit } from "@/components/form/form-submit";
 import { Separator } from "@/components/ui/separator";
@@ -36,15 +36,15 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
   //     }
   //   });
 
-  //   const { execute: executeCopy } = useAction(copyList, {
-  //     onSuccess: (data) => {
-  //       toast.success(`List "${data.title}" copied`);
-  //       closeRef.current?.click();
-  //     },
-  //     onError: (error) => {
-  //       toast.error(error);
-  //     }
-  //   });
+  const { execute: executeCopy } = useAction(copyList, {
+    onSuccess: (data) => {
+      toast.success(`List "${data[0].title}" copied`);
+      closeRef.current?.click();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   //   const onDelete = (formData: FormData) => {
   //     const id = formData.get("id") as string;
@@ -53,12 +53,12 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
   //     executeDelete({ id, boardId });
   //   };
 
-  //   const onCopy = (formData: FormData) => {
-  //     const id = formData.get("id") as string;
-  //     const boardId = formData.get("boardId") as string;
-
-  //     executeCopy({ id, boardId });
-  //   };
+  const onCopy = (formData: FormData) => {
+    const id = formData.get("id") as string;
+    const boardId = formData.get("boardId") as string;
+    const tenant_id = formData.get("tenant_id") as string;
+    executeCopy({ id, boardId, tenant_id });
+  };
 
   return (
     <Popover>
@@ -86,9 +86,15 @@ export const ListOptions = ({ data, onAddCard }: ListOptionsProps) => {
         >
           Add card...
         </Button>
-        <form>
+        <form action={onCopy}>
           <input hidden name="id" id="id" value={data.id} />
           <input hidden name="boardId" id="boardId" value={data.board_id} />
+          <input
+            hidden
+            name="tenant_id"
+            id="tenant_id"
+            value={data.tenant_id}
+          />
           <FormSubmit
             variant="ghost"
             className="rounded-none w-full h-auto p-2 px-5 justify-start font-normal text-sm"
