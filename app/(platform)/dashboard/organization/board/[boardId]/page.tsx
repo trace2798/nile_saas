@@ -13,7 +13,14 @@ const BoardIdPage = async ({ params }: BoardIdPageProps) => {
     .db("list")
     .select("*")
     .where({ board_id: params.boardId });
-
+  console.log(lists);
+  for (let list of lists) {
+    list.cards = await nile
+        .db("card")
+        .select("*")
+        .where({ list_id: list.id });
+}
+console.log(lists)
   const tenant = await nile
     .db("board")
     .select("*")

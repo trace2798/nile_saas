@@ -4,7 +4,7 @@ import { ElementRef, useRef, useState } from "react";
 import { Draggable, Droppable } from "@hello-pangea/dnd";
 
 import { cn } from "@/lib/utils";
-import { ListWithCards } from "@/types";
+import { List, ListWithCards } from "@/types";
 
 import { CardForm } from "./card-form";
 import { CardItem } from "./card-item";
@@ -50,18 +50,14 @@ export const ListItem = ({ data, index }: ListItemProps) => {
                   ref={provided.innerRef}
                   {...provided.droppableProps}
                   className={cn(
-                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2"
-                    // data.cards.length > 0 ? "mt-2" : "mt-0",
+                    "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
+                    data.cards.length > 0 ? "mt-2" : "mt-0"
                   )}
                 >
-                  {/* {data.cards.map((card, index) => (
-                    // <CardItem
-                    //   index={index}
-                    //   key={card.id}
-                    //   data={card}
-                    // />
-                    <h1 key={index}>{card.title}</h1>
-                  ))} */}
+                  {data.cards.map((card, index) => (
+                    <CardItem index={index} key={card.id} data={card} />
+                    // <h1 key={index}>{card.title}</h1>
+                  ))}
                   {provided.placeholder}
                 </ol>
               )}
