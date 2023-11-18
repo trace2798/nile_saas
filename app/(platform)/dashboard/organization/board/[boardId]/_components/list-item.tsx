@@ -57,17 +57,17 @@ export const ListItem = ({
                   {...provided.droppableProps}
                   className={cn(
                     "mx-1 px-1 py-0.5 flex flex-col gap-y-2",
-                    data.cards.length > 0 ? "mt-2" : "mt-0",
+                    // data.cards.length > 0 ? "mt-2" : "mt-0",
                   )}
                 >
-                  {data.cards.map((card, index) => (
+                  {/* {data.cards.map((card, index) => (
                     // <CardItem
                     //   index={index}
                     //   key={card.id}
                     //   data={card}
                     // />
                     <h1 key={index}>{card.title}</h1>
-                  ))}
+                  ))} */}
                   {provided.placeholder}
                 </ol>
               )}

@@ -14,10 +14,19 @@ const BoardIdPage = async ({ params }: BoardIdPageProps) => {
     .select("*")
     .where({ board_id: params.boardId });
 
+  const tenant = await nile
+    .db("board")
+    .select("*")
+    .where({ id: params.boardId });
+  console.log(tenant);
   return (
     <>
       <div className="p-4 h-full overflow-x-auto">
-        <ListContainer boardId={params.boardId} data={lists} />
+        <ListContainer
+          boardId={params.boardId}
+          data={lists}
+          tenant_id={tenant[0].tenant_id}
+        />
       </div>
     </>
   );

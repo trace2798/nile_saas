@@ -8,13 +8,13 @@ import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
 import { useAction } from "@/hooks/use-action";
 import { Button } from "@/components/ui/button";
-// import { createList } from "@/actions/create-list";
+import { createList } from "@/actions/create-list";
 import { FormInput } from "@/components/form/form-input";
 import { FormSubmit } from "@/components/form/form-submit";
 
 import { ListWrapper } from "./list-wrapper";
 
-export const ListForm = () => {
+export const ListForm = ({ tenant_id }: { tenant_id: string }) => {
   const router = useRouter();
   const params = useParams();
 
@@ -34,72 +34,65 @@ export const ListForm = () => {
     setIsEditing(false);
   };
 
-//   const { execute, fieldErrors } = useAction(createList, {
-//     onSuccess: (data) => {
-//       toast.success(`List "${data.title}" created`);
-//       disableEditing();
-//       router.refresh();
-//     },
-//     onError: (error) => {
-//       toast.error(error);
-//     },
-//   });
+  const { execute, fieldErrors } = useAction(createList, {
+    onSuccess: (data) => {
+      toast.success(`List "${data.title}" created`);
+      disableEditing();
+      router.refresh();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
       disableEditing();
-    };
+    }
   };
 
   useEventListener("keydown", onKeyDown);
   useOnClickOutside(formRef, disableEditing);
 
-//   const onSubmit = (formData: FormData) => {
-//     const title = formData.get("title") as string;
-//     const boardId = formData.get("boardId") as string;
-
-//     execute({
-//       title,
-//       boardId
-//     });
-//   }
+  const onSubmit = (formData: FormData) => {
+    console.log(formData);
+    const title = formData.get("title") as string;
+    const boardId = formData.get("boardId") as string;
+    const tenant_id = formData.get("tenant_id") as string;
+    execute({
+      title,
+      boardId,
+      tenant_id,
+    });
+  };
 
   if (isEditing) {
     return (
       <ListWrapper>
         <form
-          
+          action={onSubmit}
           ref={formRef}
           className="w-full p-3 rounded-md bg-white space-y-4 shadow-md"
         >
           <FormInput
             ref={inputRef}
-        
+            errors={fieldErrors}
             id="title"
             className="text-sm px-2 py-1 h-7 font-medium border-transparent hover:border-input focus:border-input transition"
             placeholder="Enter list title..."
           />
-          <input
-            hidden
-            value={params.boardId}
-            name="boardId"
-          />
+          <input hidden value={params.boardId} name="boardId" />
+          <input hidden value={tenant_id} name="tenant_id" />
           <div className="flex items-center gap-x-1">
-            <FormSubmit>
-              Add list
-            </FormSubmit>
-            <Button 
-              onClick={disableEditing}
-              size="sm"
-              variant="ghost"
-            >
+            <FormSubmit>Add list</FormSubmit>
+            <Button onClick={disableEditing} size="sm" variant="ghost">
               <X className="h-5 w-5" />
             </Button>
           </div>
         </form>
       </ListWrapper>
     );
-  };
+  }
 
   return (
     <ListWrapper>
