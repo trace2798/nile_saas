@@ -27,19 +27,19 @@ export const Header = ({ data }: HeaderProps) => {
   // const { execute } = useAction(updateCard, {
   //   onSuccess: (data) => {
   //     queryClient.invalidateQueries({
-  //       queryKey: ["card", data.id]
+  //       queryKey: ["card", data[0].id],
   //     });
 
   //     queryClient.invalidateQueries({
-  //       queryKey: ["card-logs", data.id]
+  //       queryKey: ["card-logs", data[0].id],
   //     });
 
-  //     toast.success(`Renamed to "${data.title}"`);
-  //     setTitle(data.title);
+  //     toast.success(`Renamed to "${data[0].title}"`);
+  //     setTitle(data[0].title);
   //   },
   //   onError: (error) => {
   //     toast.error(error);
-  //   }
+  //   },
   // });
 
   const inputRef = useRef<ElementRef<"input">>(null);
@@ -50,27 +50,30 @@ export const Header = ({ data }: HeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  const onSubmit = (formData: FormData) => {
-    const title = formData.get("title") as string;
-    const boardId = params.boardId as string;
+  // const onSubmit = (formData: FormData) => {
+  //   console.log(formData);
+  //   const title = formData.get("title") as string;
+  //   const boardId = params.boardId as string;
+  //   const tenant_id = formData.get("tenant_id") as string;
+  //   const listId = formData.get("listId") as string;
+  //   if (title === data.title) {
+  //     return;
+  //   }
 
-    if (title === data.title) {
-      return;
-    }
-
-    // execute({
-    //   title,
-    //   boardId,
-    //   id: data.id,
-    // });
-   
-  };
+  //   execute({
+  //     title,
+  //     boardId,
+  //     id: data.id,
+  //     listId,
+  //     tenant_id,
+  //   });
+  // };
   console.log(data);
   return (
     <div className="flex items-start gap-x-3 mb-6 w-full">
       <Layout className="h-5 w-5 mt-1 text-neutral-700" />
       <div className="w-full">
-        <form action={onSubmit}>
+        <form>
           <FormInput
             ref={inputRef}
             onBlur={onBlur}
@@ -78,6 +81,14 @@ export const Header = ({ data }: HeaderProps) => {
             defaultValue={title}
             className="font-semibold text-xl px-1 text-neutral-700 bg-transparent border-transparent relative -left-1.5 w-[95%] focus-visible:bg-white focus-visible:border-input mb-0.5 truncate"
           />
+             <input
+              hidden
+              id="tenant_id"
+              name="tenant_id"
+              value={data.tenant_id}
+            />
+            <input hidden id="list_id" name="list_id" value={data.list_id} />
+           
         </form>
         <p className="text-sm text-muted-foreground">
           in list <span className="underline">{data.listTitle}</span>

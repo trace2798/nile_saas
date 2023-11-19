@@ -17,11 +17,9 @@ import { Button } from "@/components/ui/button";
 
 interface DescriptionProps {
   data: CardWithList;
-};
+}
 
-export const Description = ({
-  data
-}: DescriptionProps) => {
+export const Description = ({ data }: DescriptionProps) => {
   const params = useParams();
   const queryClient = useQueryClient();
 
@@ -35,7 +33,7 @@ export const Description = ({
     setTimeout(() => {
       textareaRef.current?.focus();
     });
-  }
+  };
 
   const disableEditing = () => {
     setIsEditing(false);
@@ -53,12 +51,12 @@ export const Description = ({
   // const { execute, fieldErrors } = useAction(updateCard, {
   //   onSuccess: (data) => {
   //     queryClient.invalidateQueries({
-  //       queryKey: ["card", data.id],
+  //       queryKey: ["card", data[0].id],
   //     });
   //     queryClient.invalidateQueries({
-  //       queryKey: ["card-logs", data.id]
+  //       queryKey: ["card-logs", data[0].id],
   //     });
-  //     toast.success(`Card "${data.title}" updated`);
+  //     toast.success(`Card "${data[0].title}" updated`);
   //     disableEditing();
   //   },
   //   onError: (error) => {
@@ -67,41 +65,46 @@ export const Description = ({
   // });
 
   // const onSubmit = (formData: FormData) => {
+  //   console.log(formData);
   //   const description = formData.get("description") as string;
   //   const boardId = params.boardId as string;
-
+  //   const tenant_id = data.tenant_id;
+  //   const listId = data.list_id;
+  //   const title = formData.get("title") as string;
   //   execute({
   //     id: data.id,
   //     description,
   //     boardId,
-  //   })
-  // }
-
+  //     tenant_id,
+  //     listId,
+  //     title,
+  //   });
+  // };
+  console.log(data);
   return (
     <div className="flex items-start gap-x-3 w-full">
       <AlignLeft className="h-5 w-5 mt-0.5 text-neutral-700" />
       <div className="w-full">
-        <p className="font-semibold text-neutral-700 mb-2">
-          Description
-        </p>
+        <p className="font-semibold text-neutral-700 mb-2">Description</p>
         {isEditing ? (
-          <form
-            // action={onSubmit}
-            ref={formRef}
-            className="space-y-2"
-          >
+          <form  ref={formRef} className="space-y-2">
             <FormTextarea
               id="description"
               className="w-full mt-2"
               placeholder="Add a more detailed description"
-              defaultValue={data.description || undefined}
+              defaultValue={data.description}
               // errors={fieldErrors}
               ref={textareaRef}
             />
+            <input
+              hidden
+              id="tenant_id"
+              name="tenant_id"
+              value={data.tenant_id}
+            />
+            <input hidden id="list_id" name="list_id" value={data.list_id} />
             <div className="flex items-center gap-x-2">
-              <FormSubmit>
-                Save
-              </FormSubmit>
+              <FormSubmit>Save</FormSubmit>
               <Button
                 type="button"
                 onClick={disableEditing}

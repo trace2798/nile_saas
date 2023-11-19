@@ -18,6 +18,19 @@ export type Card = {
   updatedAt: Date;
 };
 
+export type Board = {
+  id: string;
+  tenant_id: string;
+  title: string;
+  imageId: string;
+  imageThumbUrl: string | null;
+  imageFullUrl: string | null;
+  imageUserName: string | null;
+  imageLinkHTML: string | null;
+  createdAt: Date;
+};
+
+
 export type ListWithCards = List & { cards: Card[] };
 
 export type CardWithList = Card & { list: List };
