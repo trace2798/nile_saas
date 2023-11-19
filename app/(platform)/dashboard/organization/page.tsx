@@ -31,7 +31,7 @@ const page: FC<pageProps> = async ({}) => {
   return (
     <>
       {/* <div className="mt-24">Select Org or Create org logic will come here</div> */}
-      <div className="ml-[5vw] flex flex-col justify-center items-center">
+      <div className="ml-[5vw] flex flex-col justify-center items-center mt-24">
         <Card className="max-w-sm p-3 flex items-center justify-center">
           <AddOrgButton />
         </Card>

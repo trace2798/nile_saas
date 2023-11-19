@@ -10,6 +10,8 @@ import { configureNile } from "@/lib/AuthUtils";
 import { cookies } from "next/headers";
 import nile from "@/lib/NileServer";
 import { redirect } from "next/navigation";
+import  OrgSelector  from "@/components/org-selector";
+import { ModeToggle } from "@/components/mode-toggle";
 
 export const dynamic = "force-dynamic";
 export const dynamicParams = true;
@@ -20,6 +22,15 @@ export const Navbar = async () => {
   configureNile(cookies().get("authData"), null);
   if (!nile.userId) {
     redirect("/");
+  }
+  let tenants: any = [];
+  if (nile.userId) {
+    // TODO: Replace with API call to get tenants for user when the SDK supports this
+    tenants = await nile
+      .db("tenants")
+      .select("tenants.id", "tenants.name")
+      .join("users.tenant_users", "tenants.id", "=", "tenant_users.tenant_id")
+      .where("tenant_users.user_id", "=", nile.userId);
   }
   const userInfo = await nile.db("users.users").where("id", "=", nile.userId);
   console.log(userInfo);
@@ -68,7 +79,8 @@ export const Navbar = async () => {
             },
           }}
         /> */}
-        <h1>Org Switcher</h1>
+        <OrgSelector orgs={tenants} />
+        {/* <ModeToggle/> */}
         <UserAccountNav email={email} imageUrl={picture} name={name} />
       </div>
     </nav>
