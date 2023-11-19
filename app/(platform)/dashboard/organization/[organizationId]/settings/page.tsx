@@ -1,6 +1,8 @@
+import { Table, TableCaption } from "@/components/ui/table";
 import nile from "@/lib/NileServer";
 import getCurrentMember from "@/lib/getCurrentMember";
 import { FC } from "react";
+import { BillboardClient } from "./_components/client";
 
 interface pageProps {}
 
@@ -31,6 +33,7 @@ const page = async ({}) => {
             ))}
           </div>
         ))}
+        <BillboardClient data={userInfos} />
       </div>
     </>
   );
