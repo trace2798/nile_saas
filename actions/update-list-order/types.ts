@@ -7,4 +7,4 @@ import { UpdateListOrder } from "./schema";
 import { List } from "@/types";
 
 export type InputType = z.infer<typeof UpdateListOrder>;
-export type ReturnType = ActionState<InputType, List[]>;
+export type ReturnType = ActionState<InputType, List[][]>;

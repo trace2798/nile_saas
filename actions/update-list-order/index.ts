@@ -49,7 +49,8 @@ const handler = async (data: InputType): Promise<ReturnType> => {
           board_id: boardId,
           tenant_id: tenant_id,
         })
-        .update({ order: list.order }).returning("id")
+        .update({ order: list.order })
+        .returning("id")
     );
 
     lists = await Promise.all(transaction);
