@@ -13,7 +13,6 @@ import { NavItem, Organization } from "./nav-item";
 import { useParams } from "next/navigation";
 import getCurrentMember from "@/lib/getCurrentMember";
 
-
 interface SidebarProps {
   storageKey?: string;
 }
@@ -107,6 +106,9 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
         ))} */}
         <NavItem key={id} organizationId={id} />
       </Accordion>
+      <Link href={`/dashboard/organization/${params.organizationId}/settings`}>
+        Settings
+      </Link>
     </>
   );
 };

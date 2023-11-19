@@ -22,17 +22,16 @@ const page = async ({}) => {
   return (
     <>
       {/* <div>Settings Page</div> */}
-      <div>
-        {userInfos.map((userArray) => (
+      <div className="w-full">
+        {/* {userInfos.map((userArray) => (
           <div key={userArray[0].id}>
             {userArray.map((userInfo) => (
               <div key={userInfo.id}>
-                {/* <p>{userInfo.name}</p> */}
                 <p>{userInfo.email}</p>
               </div>
             ))}
           </div>
-        ))}
+        ))} */}
         <BillboardClient data={userInfos} />
       </div>
     </>
