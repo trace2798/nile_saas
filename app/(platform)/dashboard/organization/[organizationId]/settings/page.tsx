@@ -19,7 +19,7 @@ const page = async ({}) => {
   console.log(userInfos);
   return (
     <>
-      <div>Settings Page</div>
+      {/* <div>Settings Page</div> */}
       <div>
         {userInfos.map((userArray) => (
           <div key={userArray[0].id}>

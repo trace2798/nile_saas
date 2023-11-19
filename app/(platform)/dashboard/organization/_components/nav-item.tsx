@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/accordion";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
+import OrgName from "./OrgName";
 
 export type Organization = {
   id: string;
@@ -19,7 +20,6 @@ export type Organization = {
 };
 
 interface NavItemProps {
-
   organizationId: string;
 }
 
@@ -77,7 +77,10 @@ NavItemProps) => {
               className="rounded-sm object-cover"
             /> */}
           </div>
-          <span className="font-medium text-sm">{organizationId}</span>
+          <span className="font-medium text-sm">
+            {organizationId}
+            {/* <OrgName id={organizationId} /> */}
+          </span>
         </div>
       </AccordionTrigger>
       <AccordionContent className="pt-1 text-neutral-700">

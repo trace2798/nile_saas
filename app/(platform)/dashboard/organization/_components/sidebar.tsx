@@ -12,7 +12,7 @@ import { Accordion } from "@/components/ui/accordion";
 import { NavItem, Organization } from "./nav-item";
 import { useParams } from "next/navigation";
 import getCurrentMember from "@/lib/getCurrentMember";
-import Settings from "./settings";
+
 
 interface SidebarProps {
   storageKey?: string;
