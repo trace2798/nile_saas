@@ -7,10 +7,11 @@ import { DragDropContext, Droppable } from "@hello-pangea/dnd";
 import { ListWithCards } from "@/types";
 import { useAction } from "@/hooks/use-action";
 import { updateListOrder } from "@/actions/update-list-order";
-// import { updateCardOrder } from "@/actions/update-card-order";
+import { updateCardOrder } from "@/actions/update-card-order";
 
 import { ListForm } from "./list-form";
 import { ListItem } from "./list-item";
+import { list } from "unsplash-js/dist/methods/photos";
 
 interface ListContainerProps {
   data: ListWithCards[];
@@ -42,14 +43,14 @@ export const ListContainer = ({
     },
   });
 
-  //   const { execute: executeUpdateCardOrder } = useAction(updateCardOrder, {
-  //     onSuccess: () => {
-  //       toast.success("Card reordered");
-  //     },
-  //     onError: (error) => {
-  //       toast.error(error);
-  //     },
-  //   });
+  const { execute: executeUpdateCardOrder } = useAction(updateCardOrder, {
+    onSuccess: () => {
+      toast.success("Card reordered");
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   useEffect(() => {
     setOrderedData(data);
@@ -121,10 +122,11 @@ export const ListContainer = ({
         sourceList.cards = reorderedCards;
 
         setOrderedData(newOrderedData);
-        // executeUpdateCardOrder({
-        //   boardId: boardId,
-        //   items: reorderedCards,
-        // });
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: reorderedCards,
+          tenant_id: tenant_id,
+        });
         // User moves the card to another list
       } else {
         // Remove card from the source list
@@ -146,10 +148,11 @@ export const ListContainer = ({
         });
 
         setOrderedData(newOrderedData);
-        // executeUpdateCardOrder({
-        //   boardId: boardId,
-        //   items: destList.cards,
-        // });
+        executeUpdateCardOrder({
+          boardId: boardId,
+          items: destList.cards,
+          tenant_id: tenant_id,
+        });
       }
     }
   };

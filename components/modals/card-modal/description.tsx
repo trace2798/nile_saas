@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useEventListener, useOnClickOutside } from "usehooks-ts";
 
 import { useAction } from "@/hooks/use-action";
-// import { updateCard } from "@/actions/update-card";
+import { updateCard } from "@/actions/update-card";
 import { CardWithList } from "@/types";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormTextarea } from "@/components/form/form-textarea";
@@ -48,38 +48,36 @@ export const Description = ({ data }: DescriptionProps) => {
   useEventListener("keydown", onKeyDown);
   useOnClickOutside(formRef, disableEditing);
 
-  // const { execute, fieldErrors } = useAction(updateCard, {
-  //   onSuccess: (data) => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["card", data[0].id],
-  //     });
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["card-logs", data[0].id],
-  //     });
-  //     toast.success(`Card "${data[0].title}" updated`);
-  //     disableEditing();
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error);
-  //   },
-  // });
+  const { execute, fieldErrors } = useAction(updateCard, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["card", data[0].id],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["card-logs", data[0].id],
+      });
+      toast.success(`Card "${data[0].title}" updated`);
+      disableEditing();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
-  // const onSubmit = (formData: FormData) => {
-  //   console.log(formData);
-  //   const description = formData.get("description") as string;
-  //   const boardId = params.boardId as string;
-  //   const tenant_id = data.tenant_id;
-  //   const listId = data.list_id;
-  //   const title = formData.get("title") as string;
-  //   execute({
-  //     id: data.id,
-  //     description,
-  //     boardId,
-  //     tenant_id,
-  //     listId,
-  //     title,
-  //   });
-  // };
+  const onSubmit = (formData: FormData) => {
+    console.log(formData);
+    const description = formData.get("description") as string;
+    const boardId = params.boardId as string;
+    const tenant_id = data.tenant_id;
+    const list_id = data.list_id;
+    execute({
+      id: data.id,
+      description,
+      boardId,
+      tenant_id,
+      list_id,
+    });
+  };
   console.log(data);
   return (
     <div className="flex items-start gap-x-3 w-full">
@@ -87,13 +85,13 @@ export const Description = ({ data }: DescriptionProps) => {
       <div className="w-full">
         <p className="font-semibold text-neutral-700 mb-2">Description</p>
         {isEditing ? (
-          <form  ref={formRef} className="space-y-2">
+          <form action={onSubmit} ref={formRef} className="space-y-2">
             <FormTextarea
               id="description"
               className="w-full mt-2"
               placeholder="Add a more detailed description"
               defaultValue={data.description}
-              // errors={fieldErrors}
+              errors={fieldErrors}
               ref={textareaRef}
             />
             <input

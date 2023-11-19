@@ -8,7 +8,7 @@ import { useQueryClient } from "@tanstack/react-query";
 
 import { CardWithList } from "@/types";
 import { useAction } from "@/hooks/use-action";
-// import { updateCard } from "@/actions/update-card";
+import { updateCard } from "@/actions/update-card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormInput } from "@/components/form/form-input";
 
@@ -24,23 +24,23 @@ export const Header = ({ data }: HeaderProps) => {
   const queryClient = useQueryClient();
   const params = useParams();
 
-  // const { execute } = useAction(updateCard, {
-  //   onSuccess: (data) => {
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["card", data[0].id],
-  //     });
+  const { execute } = useAction(updateCard, {
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ["card", data[0].id],
+      });
 
-  //     queryClient.invalidateQueries({
-  //       queryKey: ["card-logs", data[0].id],
-  //     });
+      queryClient.invalidateQueries({
+        queryKey: ["card-logs", data[0].id],
+      });
 
-  //     toast.success(`Renamed to "${data[0].title}"`);
-  //     setTitle(data[0].title);
-  //   },
-  //   onError: (error) => {
-  //     toast.error(error);
-  //   },
-  // });
+      toast.success(`Renamed to "${data[0].title}"`);
+      setTitle(data[0].title);
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const inputRef = useRef<ElementRef<"input">>(null);
 
@@ -50,30 +50,29 @@ export const Header = ({ data }: HeaderProps) => {
     inputRef.current?.form?.requestSubmit();
   };
 
-  // const onSubmit = (formData: FormData) => {
-  //   console.log(formData);
-  //   const title = formData.get("title") as string;
-  //   const boardId = params.boardId as string;
-  //   const tenant_id = formData.get("tenant_id") as string;
-  //   const listId = formData.get("listId") as string;
-  //   if (title === data.title) {
-  //     return;
-  //   }
+  const onSubmit = (formData: FormData) => {
+    console.log(formData);
+    const title = formData.get("title") as string;
+    const boardId = params.boardId as string;
+    const tenant_id = formData.get("tenant_id") as string;
+    if (title === data.title) {
+      return;
+    }
 
-  //   execute({
-  //     title,
-  //     boardId,
-  //     id: data.id,
-  //     listId,
-  //     tenant_id,
-  //   });
-  // };
+    execute({
+      title,
+      boardId,
+      id: data.id,
+      list_id: data.list_id,
+      tenant_id,
+    });
+  };
   console.log(data);
   return (
     <div className="flex items-start gap-x-3 mb-6 w-full">
       <Layout className="h-5 w-5 mt-1 text-neutral-700" />
       <div className="w-full">
-        <form>
+        <form action={onSubmit}>
           <FormInput
             ref={inputRef}
             onBlur={onBlur}
