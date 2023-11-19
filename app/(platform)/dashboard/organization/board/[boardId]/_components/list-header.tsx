@@ -6,7 +6,7 @@ import { useEventListener } from "usehooks-ts";
 import { useState, useRef, ElementRef } from "react";
 
 import { useAction } from "@/hooks/use-action";
-// import { updateList } from "@/actions/update-list";
+import { updateList } from "@/actions/update-list";
 import { FormInput } from "@/components/form/form-input";
 
 import { ListOptions } from "./list-options";
@@ -14,12 +14,9 @@ import { ListOptions } from "./list-options";
 interface ListHeaderProps {
   data: List;
   onAddCard: () => void;
-};
+}
 
-export const ListHeader = ({
-  data,
-  onAddCard,
-}: ListHeaderProps) => {
+export const ListHeader = ({ data, onAddCard }: ListHeaderProps) => {
   const [title, setTitle] = useState(data.title);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -38,16 +35,16 @@ export const ListHeader = ({
     setIsEditing(false);
   };
 
-//   const { execute } = useAction(updateList, {
-//     onSuccess: (data) => {
-//       toast.success(`Renamed to "${data.title}"`);
-//       setTitle(data.title);
-//       disableEditing();
-//     },
-//     onError: (error) => {
-//       toast.error(error);
-//     }
-//   });
+  const { execute } = useAction(updateList, {
+    onSuccess: (data) => {
+      toast.success(`Renamed to "${data[0].title}"`);
+      setTitle(data[0].title);
+      disableEditing();
+    },
+    onError: (error) => {
+      toast.error(error);
+    },
+  });
 
   const handleSubmit = (formData: FormData) => {
     const title = formData.get("title") as string;
@@ -58,16 +55,17 @@ export const ListHeader = ({
       return disableEditing();
     }
 
-    // execute({
-    //   title,
-    //   id,
-    //   boardId,
-    // });
-  }
+    execute({
+      title,
+      id,
+      boardId,
+      tenant_id: data.tenant_id,
+    });
+  };
 
   const onBlur = () => {
     formRef.current?.requestSubmit();
-  }
+  };
 
   const onKeyDown = (e: KeyboardEvent) => {
     if (e.key === "Escape") {
@@ -80,11 +78,7 @@ export const ListHeader = ({
   return (
     <div className="pt-2 px-2 text-sm font-semibold flex justify-between items-start- gap-x-2">
       {isEditing ? (
-        <form 
-          ref={formRef}
-          action={handleSubmit}  
-          className="flex-1 px-[2px]"
-        >
+        <form ref={formRef} action={handleSubmit} className="flex-1 px-[2px]">
           <input hidden id="id" name="id" value={data.id} />
           <input hidden id="boardId" name="boardId" value={data.board_id} />
           <FormInput
@@ -105,10 +99,7 @@ export const ListHeader = ({
           {title}
         </div>
       )}
-      <ListOptions
-        onAddCard={onAddCard}
-        data={data}
-      />
+      <ListOptions onAddCard={onAddCard} data={data} />
     </div>
   );
 };
