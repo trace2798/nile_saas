@@ -1,3 +1,4 @@
+// import { useParams } from "next/navigation";
 import { Navbar } from "../_components/navbar";
 import { Sidebar } from "../_components/sidebar";
 
@@ -9,6 +10,7 @@ const OrganizationIdLayout = ({ children }: { children: React.ReactNode }) => {
       <div className="flex gap-x-7">
         <div className="w-64 shrink-0 hidden md:block">
           <Sidebar />
+          {/* {useParams().organizationId} */}
         </div>
         {children}
       </div>

@@ -58,7 +58,7 @@ const UserAccountNav = ({ email, imageUrl, name }: UserAccountNavProps) => {
         </DropdownMenuItem>
 
         <DropdownMenuSeparator />
-        <a href="api/logout">
+        <a href="/api/logout">
           <DropdownMenuItem className="cursor-pointer">
             Log out
           </DropdownMenuItem>
