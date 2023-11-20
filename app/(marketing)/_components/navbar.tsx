@@ -7,10 +7,14 @@ import { configureNile } from "@/lib/AuthUtils";
 import { cookies } from "next/headers";
 import nile from "@/lib/NileServer";
 import UserAccountNav from "@/components/user-account-nav";
+import { redirect } from "next/navigation";
 
 export const Navbar = async () => {
   configureNile(cookies().get("authData"), null);
   console.log("showing tenants page for user: " + nile.userId);
+  if (!nile.userId) {
+    redirect("/");
+  }
   console.log(nile.userId);
   const userInfo = await nile.db("users.users").where("id", "=", nile.userId);
   console.log(userInfo);
