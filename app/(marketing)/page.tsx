@@ -4,16 +4,21 @@ import { Medal } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ModeToggle } from "@/components/mode-toggle";
+import { configureNile } from "@/lib/AuthUtils";
+import { cookies } from "next/headers";
+import nile from "@/lib/NileServer";
 
 const MarketingPage = () => {
+  configureNile(cookies().get("authData"), null);
+  console.log("showing tenants page for user: " + nile.userId);
+  console.log(nile.userId);
   return (
     <div className="flex items-center justify-center flex-col">
       <div className={cn("flex items-center justify-center flex-col")}>
         <div className="mb-4 flex items-center border shadow-sm p-4 bg-amber-100 text-amber-700 rounded-full uppercase">
           <Medal className="h-6 w-6 mr-2" />
-          No 1 task managment
+          Manage Task Efficiently
         </div>
-        <ModeToggle />
         <h1 className="text-3xl md:text-6xl text-center mb-6 font-switzerBold">
           Collab helps team move
         </h1>
@@ -30,9 +35,15 @@ const MarketingPage = () => {
         high rises to the home office, the way your team works is unique -
         accomplish it all with Collab.
       </div>
-      <Button className="mt-6" size="lg" asChild>
-        <Link href="/sign-up">Get Collab for free</Link>
-      </Button>
+      {nile.userId ? (
+        <Button size="sm" asChild className="mt-5">
+          <Link href="/dashboard">Dashboard</Link>
+        </Button>
+      ) : (
+        <Button size="sm" asChild className="mt-5">
+          <Link href="/sign-up">Get Taskify for free</Link>
+        </Button>
+      )}
     </div>
   );
 };
