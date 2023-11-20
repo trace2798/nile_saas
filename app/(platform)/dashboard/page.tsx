@@ -8,8 +8,8 @@ const page: FC<pageProps> = ({}) => {
   return (
     <>
       <div className="min-h-screen flex justify-center items-center text-center">
-        <Link href="/dashboard/personal">
-          <Card className="p-10">Personal</Card>
+        <Link href="/dashboard">
+          <Card className="p-10">Personal(on the works)</Card>
         </Link>
         <Link href="/dashboard/organization">
           <Card className="p-10 ml-5">Organization</Card>
