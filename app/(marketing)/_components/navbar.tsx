@@ -13,7 +13,26 @@ export const Navbar = async () => {
   configureNile(cookies().get("authData"), null);
   console.log("showing tenants page for user: " + nile.userId);
   if (!nile.userId) {
-    redirect("/");
+    return (
+      <>
+        <div className="fixed top-0 w-full h-14 px-4 border-b shadow-sm flex items-center">
+          <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
+            <Logo />
+            <div className="space-x-4 md:block md:w-auto flex items-center justify-between w-full">
+              <Button size="sm" variant="outline" asChild>
+                <Link href="/login">Login</Link>
+              </Button>
+
+              <ModeToggle />
+
+              <Button size="sm" asChild>
+                <Link href="/sign-up">Get Taskify for free</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
+      </>
+    );
   }
   console.log(nile.userId);
   const userInfo = await nile.db("users.users").where("id", "=", nile.userId);
