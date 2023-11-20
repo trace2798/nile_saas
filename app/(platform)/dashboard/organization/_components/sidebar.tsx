@@ -94,7 +94,6 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
         defaultValue={defaultAccordionValue}
         className="space-y-2"
       >
-        {/* <Members organizationId={params.organizationId} /> */}
         {/* {userMemberships.data.map(({ organization }) => (
           <NavItem
             key={organization.id}

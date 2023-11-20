@@ -3,13 +3,26 @@ import nile from "@/lib/NileServer";
 import getCurrentMember from "@/lib/getCurrentMember";
 import { FC } from "react";
 import { BillboardClient } from "./_components/client";
+import { headers } from "next/headers";
+import { redirect } from "next/navigation";
 
 interface pageProps {}
 
 const page = async ({}) => {
+  const headersList = headers();
+  console.log(headersList);
+  const referer = headersList.get("referer");
+  console.log(referer);
+  if (!referer) {
+    redirect("/");
+  }
+  const parts = referer.split("/");
+  const number = parts[5];
+  console.log(number);
+
   const memberIds = await nile
     .db("users.tenant_users")
-    .where({ tenant_id: "018bd75d-05e2-72d6-9d70-222f484e94ca" })
+    .where({ tenant_id: number })
     .select("user_id");
   console.log(memberIds);
   const userInfos = await Promise.all(
