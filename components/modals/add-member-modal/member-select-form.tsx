@@ -62,10 +62,18 @@ const ComboboxForm = ({
     try {
       setLoading(true);
       console.log(values, "VALUES VALUES");
-      await addMember(tenantId, values.email, values.user_id);
-      form.reset();
-      toast("Member Added");
-      router.refresh();
+      // await addMember(tenantId, values.email, values.user_id);
+      // form.reset();
+      // toast("Member Added");
+      // router.refresh();
+      const result = await addMember(tenantId, values.email, values.user_id);
+      if (result?.message === "User already exists in the organization") {
+        toast("User already exists in the organization");
+      } else {
+        form.reset();
+        toast("Member Added");
+        router.refresh();
+      }
     } catch (error) {
       console.error(error);
       toast("Error adding member");
@@ -136,7 +144,9 @@ const ComboboxForm = ({
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isLoading}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

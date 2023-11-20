@@ -8,7 +8,6 @@ export type BillboardColumn = {
   id: string;
   email: string;
   createdAt: string;
-  tenant_id: string;
 };
 
 
@@ -20,10 +19,6 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "createdAt",
     header: "Date",
-  },
-  {
-    accessorKey: "tenant_id",
-    header: "Org Id",
   },
   {
     id: "actions",
