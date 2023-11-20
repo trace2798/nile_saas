@@ -44,13 +44,13 @@ export const Navbar = async () => {
         <div className="hidden md:flex">
           <Logo />
         </div>
-        <FormPopover align="start" side="bottom" sideOffset={18}>
+        {/* <FormPopover align="start" side="bottom" sideOffset={18}>
           <Button
             variant="primary"
             size="sm"
             className="rounded-sm hidden md:block h-auto  py-1.5 px-2"
           >
-            Create
+            Create Board
           </Button>
         </FormPopover>
         <FormPopover>
@@ -59,9 +59,9 @@ export const Navbar = async () => {
             size="sm"
             className="rounded-sm block md:hidden"
           >
-            <Plus className="h-4 w-4" />
+            <Plus className="h-4 w-4" /> Board
           </Button>
-        </FormPopover>
+        </FormPopover> */}
       </div>
       <div className="ml-auto flex items-center gap-x-2">
         {/* <OrganizationSwitcher
@@ -80,7 +80,7 @@ export const Navbar = async () => {
           }}
         /> */}
         <OrgSelector orgs={tenants} />
-        {/* <ModeToggle/> */}
+        <ModeToggle/>
         <UserAccountNav email={email} imageUrl={picture} name={name} />
       </div>
     </nav>

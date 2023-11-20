@@ -60,26 +60,27 @@ NavItemProps) => {
   };
 
   return (
-    <AccordionItem value={organizationId} className="border-none">
+    <>
+      {/* <AccordionItem value={organizationId} className="border-none">
       <AccordionTrigger
-        // onClick={() => onExpand(organization.id)}
+        onClick={() => onExpand(organization.id)}
         className={cn(
           "flex items-center gap-x-2 p-1.5 text-neutral-700 rounded-md hover:bg-neutral-500/10 transition text-start no-underline hover:no-underline"
-          // isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
+          isActive && !isExpanded && "bg-sky-500/10 text-sky-700"
         )}
       >
         <div className="flex items-center gap-x-2">
           <div className="w-7 h-7 relative">
-            {/* <Image
+            <Image
               fill
               src={organization.imageUrl}
               alt="Organization"
               className="rounded-sm object-cover"
-            /> */}
+            />
           </div>
           <span className="font-medium text-sm">
             {organizationId}
-            {/* <OrgName id={organizationId} /> */}
+            <OrgName id={organizationId} />
           </span>
         </div>
       </AccordionTrigger>
@@ -100,7 +101,23 @@ NavItemProps) => {
           </Button>
         ))}
       </AccordionContent>
-    </AccordionItem>
+    </AccordionItem> */}
+      {routes.map((route) => (
+        <Button
+          key={route.href}
+          size="sm"
+          onClick={() => onClick(route.href)}
+          className={cn(
+            "w-full font-normal justify-start pl-10 mb-1",
+            pathname === route.href && "bg-sky-500/10 text-sky-700"
+          )}
+          variant="ghost"
+        >
+          {route.icon}
+          {route.label}
+        </Button>
+      ))}
+    </>
   );
 };
 

@@ -18,7 +18,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
   // const handleSelect = (id: string) => {
   //   router.push(`/dashboard/organization/${id}`);
   // };
-  const [selectedOrg, setSelectedOrg] = useState("Choose organization");
+  const [selectedOrg, setSelectedOrg] = useState("Change organization");
   const param = usePathname();
   console.log(param);
   const handleSelect = (id: string, name: string) => {
@@ -28,7 +28,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-[280px] border p-1 rounded-lg flex justify-between items-center">
+      <DropdownMenuTrigger className="w-[180px] md:w-[280px] border p-1 rounded-lg flex justify-between items-center">
         {selectedOrg}
       </DropdownMenuTrigger>
       <DropdownMenuContent>

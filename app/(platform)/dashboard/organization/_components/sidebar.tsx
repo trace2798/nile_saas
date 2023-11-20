@@ -75,7 +75,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
 
   return (
     <>
-      <div className="font-medium text-xs flex items-center mb-1">
+      {/* <div className="font-medium text-xs flex items-center mb-1">
         <span className="pl-4">Workspaces</span>
         <Button
           asChild
@@ -88,7 +88,7 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
             <Plus className="h-4 w-4" />
           </Link>
         </Button>
-      </div>
+      </div> */}
       <Accordion
         type="multiple"
         defaultValue={defaultAccordionValue}
@@ -103,11 +103,12 @@ export const Sidebar = ({ storageKey = "t-sidebar-state" }: SidebarProps) => {
             onExpand={onExpand}
           />
         ))} */}
-        <NavItem key={id} organizationId={id} />
+        {/* <NavItem key={id} organizationId={id} /> */}
       </Accordion>
-      <Link href={`/dashboard/organization/${params.organizationId}/settings`}>
-        Settings
-      </Link>
+      {/* <Link href={`/dashboard/organization/${params.organizationId}/settings`}>
+        // Settings 
+      </Link> */}
+      <NavItem key={id} organizationId={id} />
     </>
   );
 };
