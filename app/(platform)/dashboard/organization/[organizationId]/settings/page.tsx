@@ -48,7 +48,7 @@ const page = async ({}) => {
             ))}
           </div>
         ))} */}
-        <ComboboxForm users={users} />
+        <ComboboxForm users={users} tenantId={number} />
         <BillboardClient data={userInfos} />
       </div>
     </>

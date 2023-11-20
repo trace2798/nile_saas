@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check, ChevronsUpDown } from "lucide-react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
 
 import { cn } from "@/lib/utils";
@@ -29,34 +29,59 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { toast } from "sonner";
+import { useState } from "react";
+import { addMember } from "@/app/(platform)/dashboard/organization/[organizationId]/settings/_components/member-action";
+import { useRouter } from "next/navigation";
 
-
-const FormSchema = z.object({
-  user: z.string({
-    required_error: "Please select a user to add.",
-  }),
+const formSchema = z.object({
+  tenantId: z.string().min(2).max(50),
+  user_id: z.string().min(2).max(256),
+  email: z.string(),
 });
 
-const ComboboxForm = ({ users }: { users: any }) => {
-  const form = useForm<z.infer<typeof FormSchema>>({
-    resolver: zodResolver(FormSchema),
+const ComboboxForm = ({
+  tenantId,
+  users,
+}: {
+  tenantId: string;
+  users: any;
+}) => {
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      tenantId: tenantId,
+      email: "",
+      user_id: "",
+    },
   });
+  type FormData = z.infer<typeof formSchema>;
 
-  function onSubmit(data: z.infer<typeof FormSchema>) {
-    toast.success(
-      `You submitted the following values: ${JSON.stringify(data, null, 2)}`
-    );
-  }
+  const onSubmit: SubmitHandler<FormData> = async (values) => {
+    try {
+      setLoading(true);
+      console.log(values, "VALUES VALUES");
+      await addMember(tenantId, values.email, values.user_id);
+      form.reset();
+      toast("Member Added");
+      router.refresh();
+    } catch (error) {
+      console.error(error);
+      toast("Error adding member");
+    }
+  };
+  const isLoading = form.formState.isSubmitting;
 
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
         <FormField
           control={form.control}
-          name="user"
+          name="user_id"
           render={({ field }) => (
             <FormItem className="flex flex-col">
-              <FormLabel>users</FormLabel>
+              <FormLabel>Select a User</FormLabel>
               <Popover>
                 <PopoverTrigger asChild>
                   <FormControl>
@@ -86,7 +111,7 @@ const ComboboxForm = ({ users }: { users: any }) => {
                           value={user.id}
                           key={user.id}
                           onSelect={() => {
-                            form.setValue("user", user.id);
+                            form.setValue("user_id", user.id);
                           }}
                         >
                           <Check
@@ -105,7 +130,7 @@ const ComboboxForm = ({ users }: { users: any }) => {
                 </PopoverContent>
               </Popover>
               <FormDescription>
-                This is the user that will be used in the dashboard.
+                Once submitted the user will be added to this organization.
               </FormDescription>
               <FormMessage />
             </FormItem>
