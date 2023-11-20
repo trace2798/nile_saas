@@ -5,6 +5,7 @@ import { FC } from "react";
 import { BillboardClient } from "./_components/client";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import ComboboxForm from "@/components/modals/add-member-modal/member-select-form";
 
 interface pageProps {}
 
@@ -32,6 +33,8 @@ const page = async ({}) => {
     })
   );
   console.log(userInfos);
+  const users = await nile.db("users.users").select("id", "email");
+  console.log(users);
   return (
     <>
       {/* <div>Settings Page</div> */}
@@ -45,6 +48,7 @@ const page = async ({}) => {
             ))}
           </div>
         ))} */}
+        <ComboboxForm users={users} />
         <BillboardClient data={userInfos} />
       </div>
     </>

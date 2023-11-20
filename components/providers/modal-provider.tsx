@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { ProModal } from "@/components/modals/pro-modal";
 import { OrganizationModal } from "../modals/orgs-modal";
 import { CardModal } from "../modals/card-modal";
-import { AddMemberModal } from "../modals/add-member-modal";
+import { AddMemberModal } from "../modals/add-member-modal/add-member-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);

@@ -8,6 +8,7 @@ import { fetcher } from "@/lib/fetcher";
 import { useCardModal } from "@/hooks/use-card-modal";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { useMemberModal } from "@/hooks/use-member-modal";
+import MemberSelect from "./member-select";
 
 interface CardWithListAndTitle extends CardWithList {
   listTitle: string;
@@ -37,6 +38,7 @@ export const AddMemberModal = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 md:gap-4">
           Modal Content
         </div>
+        <MemberSelect/>
       </DialogContent>
     </Dialog>
   );
