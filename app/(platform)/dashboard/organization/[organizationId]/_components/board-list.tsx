@@ -41,14 +41,14 @@ export const BoardList = async ({
     .db("board")
     .select("*")
     .where({ tenant_id: organizationId });
-    // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context
+  // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context
   console.log(boards);
   // if(!boards.length === 0) {
   //   return <div>No boards</div>
   // }
   return (
     <div className="space-y-4">
-      <div className="flex items-center font-semibold text-lg text-neutral-700">
+      <div className="flex items-center font-semibold text-primary text-neutral-700">
         <User2 className="h-6 w-6 mr-2" />
         Your boards
       </div>
@@ -61,9 +61,7 @@ export const BoardList = async ({
             style={{ backgroundImage: `url(${board.imagethumburl})` }}
           >
             <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition" />
-            <p className="relative font-semibold text-white">
-              {board.title}
-            </p>
+            <p className="relative font-semibold text-white">{board.title}</p>
           </Link>
         ))}
         <FormPopover sideOffset={10} side="right">

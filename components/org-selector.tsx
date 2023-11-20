@@ -28,7 +28,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="w-[180px] md:w-[280px] border p-1 rounded-lg flex justify-between items-center">
+      <DropdownMenuTrigger className="w-[180px] md:w-[280px] border p-1 rounded-lg flex justify-between items-center font-light dark:bg-zinc-900">
         {selectedOrg}
       </DropdownMenuTrigger>
       <DropdownMenuContent>
@@ -38,7 +38,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
           </DropdownMenuLabel>
           {orgs.map((org: { id: string; name: string }) => (
             <DropdownMenuItem
-              className="p-1"
+              className="p-1 hover:cursor-pointer"
               onClick={() => handleSelect(org.id, org.name)}
             >
               {org.name}

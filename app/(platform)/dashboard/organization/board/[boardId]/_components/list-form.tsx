@@ -98,7 +98,7 @@ export const ListForm = ({ tenant_id }: { tenant_id: string }) => {
     <ListWrapper>
       <button
         onClick={enableEditing}
-        className="w-full rounded-md bg-white/80 hover:bg-white/50 transition p-3 flex items-center font-medium text-sm"
+        className="w-full rounded-md  bg-slate-600/50 hover:bg-indigo-600 transition p-3 flex items-center font-medium text-sm text-neutral-200"
       >
         <Plus className="h-4 w-4 mr-2" />
         Add a list

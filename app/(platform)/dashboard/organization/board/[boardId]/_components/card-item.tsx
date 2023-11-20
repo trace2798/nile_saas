@@ -8,12 +8,9 @@ import { Card } from "@/types";
 interface CardItemProps {
   data: Card;
   index: number;
-};
+}
 
-export const CardItem = ({
-  data,
-  index,
-}: CardItemProps) => {
+export const CardItem = ({ data, index }: CardItemProps) => {
   const cardModal = useCardModal();
 
   return (
@@ -25,7 +22,7 @@ export const CardItem = ({
           ref={provided.innerRef}
           role="button"
           onClick={() => cardModal.onOpen(data.id)}
-          className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white rounded-md shadow-sm"
+          className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white dark:bg-zinc-800 rounded-md shadow-sm"
         >
           {data.title}
         </div>

@@ -38,7 +38,7 @@ export const Navbar = async () => {
   const picture = userInfo[0].picture;
   const name = userInfo[0].name;
   return (
-    <nav className="fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm bg-white flex items-center">
+    <nav className="fixed z-50 top-0 px-4 w-full h-14 border-b shadow-sm flex items-center backdrop-blur-lg">
       <MobileSidebar />
       <div className="flex items-center gap-x-4">
         <div className="hidden md:flex">
