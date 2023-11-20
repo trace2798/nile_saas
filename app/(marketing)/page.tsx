@@ -36,7 +36,7 @@ const MarketingPage = () => {
         accomplish it all with Collab.
       </div>
       {nile.userId ? (
-        <Button size="sm" asChild className="mt-5">
+        <Button size="lg" asChild className="mt-5">
           <Link href="/dashboard">Dashboard</Link>
         </Button>
       ) : (
