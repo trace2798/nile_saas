@@ -27,7 +27,7 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
   const flattenedData = data.reduce((acc, curr) => [...acc, ...curr], []);
   return (
     <>
-        {/* <Heading title={`Billboards (${data.length})`} description="Manage billboards for your store" /> */}
+      {/* <Heading title={`Billboards (${data.length})`} description="Manage billboards for your store" /> */}
       {/* <div className="flex items-center justify-between">
         <Button onClick={() => memberModal.onOpen(id as string)}>
           <Plus className="mr-2 h-4 w-4" /> Add New Member

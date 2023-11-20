@@ -5,6 +5,7 @@ import { ProModal } from "@/components/modals/pro-modal";
 import { OrganizationModal } from "../modals/orgs-modal";
 import { CardModal } from "../modals/card-modal";
 import { AddMemberModal } from "../modals/add-member-modal/add-member-modal";
+import { AlertModal } from "../modals/alert-modal";
 
 export const ModalProvider = () => {
   const [isMounted, setIsMounted] = useState(false);

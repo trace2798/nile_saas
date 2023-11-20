@@ -18,12 +18,15 @@ import {
 
 import { BillboardColumn } from "./columns";
 import { toast } from "sonner";
+import { AlertModal } from "@/components/modals/alert-modal";
+import { removeMember } from "./member-action";
 
 interface CellActionProps {
   data: BillboardColumn;
 }
 
 export const CellAction: React.FC<CellActionProps> = ({ data }) => {
+  console.log(data);
   const router = useRouter();
   const params = useParams();
   const [open, setOpen] = useState(false);
@@ -32,11 +35,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
-      //   toast.success('Billboard deleted.');
+      await removeMember(params.organizationId as string, data.id);
+      // await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
+      toast.success("User Removed.");
       router.refresh();
     } catch (error) {
-      //   toast.error('Make sure you removed all categories using this billboard first.');
+      toast.error("Failed to remove user");
     } finally {
       setOpen(false);
       setLoading(false);
@@ -50,12 +54,12 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
 
   return (
     <>
-      {/* <AlertModal 
-        isOpen={open} 
+      <AlertModal
+        isOpen={open}
         onClose={() => setOpen(false)}
         onConfirm={onConfirm}
         loading={loading}
-      /> */}
+      />
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="ghost" className="h-8 w-8 p-0">
@@ -76,7 +80,7 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
             <Edit className="mr-2 h-4 w-4" /> Update
           </DropdownMenuItem>
           <DropdownMenuItem onClick={() => setOpen(true)}>
-            <Trash className="mr-2 h-4 w-4" /> Delete
+            <Trash className="mr-2 h-4 w-4" /> Remove
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
