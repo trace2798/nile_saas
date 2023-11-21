@@ -21,6 +21,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
   const [selectedOrg, setSelectedOrg] = useState("Change organization");
   const param = usePathname();
   console.log(param);
+
   const handleSelect = (id: string, name: string) => {
     setSelectedOrg(name);
     router.push(`/dashboard/organization/${id}`);
