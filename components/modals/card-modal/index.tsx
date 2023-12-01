@@ -11,7 +11,7 @@ import { Dialog, DialogContent } from "@/components/ui/dialog";
 import { Header } from "./header";
 import { Description } from "./description";
 import { Actions } from "./actions";
-import { Activity } from "./activity";
+// import { Activity } from "./activity";
 
 interface CardWithListAndTitle extends CardWithList {
   listTitle: string;

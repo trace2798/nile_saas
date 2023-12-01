@@ -41,6 +41,7 @@ const OrgSelector = ({ orgs }: { orgs: any }) => {
             <DropdownMenuItem
               className="p-1 hover:cursor-pointer"
               onClick={() => handleSelect(org.id, org.name)}
+              key={org.id}
             >
               {org.name}
             </DropdownMenuItem>
