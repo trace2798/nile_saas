@@ -20,7 +20,7 @@ import { Spinner } from "./spinner";
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
 const formSchema = z.object({
-  name: z.string().min(2).max(50),
+  preferredName: z.string().min(2).max(50),
   email: z.string().min(2).max(50),
   password: z.string().min(6),
 });
@@ -32,7 +32,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "",
+      preferredName: "",
       email: "",
       password: "",
     },
@@ -42,8 +42,9 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const onSubmit: SubmitHandler<FormData> = async (values) => {
     try {
       setLoading(true);
+      console.log(values, "VALUES VALUES");
       const response = await axios.post(`/api/sign-up`, values);
-      // console.log(values, "VALUES VALUES");
+      console.log(response, "RESPONSE RESPONSE");
       form.reset();
       toast({
         title: "User account created",
@@ -76,7 +77,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
               </Label>
               <FormField
                 control={form.control}
-                name="name"
+                name="preferredName"
                 render={({ field }) => (
                   <FormItem>
                     <FormControl>

@@ -24,9 +24,7 @@ const OrganizationIdPage = async ({ params }: { params: { organizationId: string
   console.log(resp)
   const tenant = await resp.json();
   console.log(tenant);
-//   const todos = await nile.db("todos").select("*").orderBy("created_at","desc"); // no need for where clause because we previously set Nile context
-//   console.log(todos);
-//   const isPro = await checkSubscription();
+
   return (
     <div className="w-full mb-20">
       <Info name={tenant.name}  />
