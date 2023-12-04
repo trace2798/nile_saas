@@ -17,7 +17,9 @@ export async function addMember(
       "with id of" +
       user_id +
       " to tenant:" +
-      nile.tenantId + " with role: " + roles
+      nile.tenantId +
+      " with role: " +
+      roles
   );
   try {
     // const id = uuid.v4();
@@ -34,12 +36,14 @@ export async function addMember(
       id: user_id,
     });
     console.log(userInfo);
+    const rolesArray = Array.isArray(roles) ? roles : [roles];
+    console.log(rolesArray);
     console.log(roles);
     const res = await nile.db("users.tenant_users").insert({
       tenant_id: tenantId,
       user_id: userInfo[0].id,
       email: userInfo[0].email,
-      // roles: roles,
+      roles: rolesArray,
     });
     console.log(res);
     return { message: "User Added" };

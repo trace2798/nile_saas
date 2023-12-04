@@ -66,7 +66,7 @@ const BoardIdLayout = async ({
       style={{ backgroundImage: `url(${board[0].imagefullurl})` }}
     >
       <BoardNavbar data={board} />
-      {board ? <CardModalProvider /> : null}
+      {/* {board ? <CardModalProvider /> : null} */}
 
       <div className="absolute inset-0 bg-black/10" />
       <main className="relative pt-28 h-full">{children}</main>
