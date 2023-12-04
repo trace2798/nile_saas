@@ -38,11 +38,11 @@ NavItemProps) => {
       icon: <Layout className="h-4 w-4 mr-2" />,
       href: `/dashboard/organization/${organizationId}`,
     },
-    {
-      label: "Activity",
-      icon: <Activity className="h-4 w-4 mr-2" />,
-      href: `/dashboard/organization/${organizationId}/activity`,
-    },
+    // {
+    //   label: "Activity",
+    //   icon: <Activity className="h-4 w-4 mr-2" />,
+    //   href: `/dashboard/organization/${organizationId}/activity`,
+    // },
     {
       label: "Settings",
       icon: <Settings className="h-4 w-4 mr-2" />,
