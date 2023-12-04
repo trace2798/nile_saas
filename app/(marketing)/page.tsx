@@ -1,12 +1,11 @@
-import Link from "next/link";
 import { Medal } from "lucide-react";
+import Link from "next/link";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ModeToggle } from "@/components/mode-toggle";
 import { configureNile } from "@/lib/AuthUtils";
-import { cookies } from "next/headers";
 import nile from "@/lib/NileServer";
+import { cn } from "@/lib/utils";
+import { cookies } from "next/headers";
 
 const MarketingPage = () => {
   configureNile(cookies().get("authData"), null);
@@ -44,6 +43,7 @@ const MarketingPage = () => {
           <Link href="/sign-up">Get Taskify for free</Link>
         </Button>
       )}
+
     </div>
   );
 };
