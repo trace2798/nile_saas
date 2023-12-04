@@ -40,7 +40,7 @@ const formSchema = z.object({
   roles: z.string(),
 });
 const roles = ["owner", "guest", "admin", "member"];
-const ComboboxForm = ({
+const MemberSelectForm = ({
   tenantId,
   users,
 }: {
@@ -212,4 +212,4 @@ const ComboboxForm = ({
   );
 };
 
-export default ComboboxForm;
+export default MemberSelectForm;

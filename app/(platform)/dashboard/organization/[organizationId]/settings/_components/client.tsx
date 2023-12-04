@@ -6,7 +6,6 @@ import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
 import { columns, BillboardColumn } from "./columns";
-import { AddMemberModal } from "@/components/modals/add-member-modal/add-member-modal";
 import { useMemberModal } from "@/hooks/use-member-modal";
 
 interface BillboardClientProps {

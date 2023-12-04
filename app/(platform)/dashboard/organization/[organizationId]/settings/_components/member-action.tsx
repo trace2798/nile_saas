@@ -93,12 +93,21 @@ export async function removeMember(tenantId: string, user_id: string) {
       " by :" +
       nile.userId
   );
-  console.log(nile)
-  const roleArray = await nile.db("users.tenant_users").where({ tenant_id: nile.tenantId, user_id: nile.userId }).select("roles");
+  console.log(nile);
+  const roleArray = await nile
+    .db("users.tenant_users")
+    .where({ tenant_id: nile.tenantId, user_id: nile.userId })
+    .select("roles");
   const role = roleArray[0].roles;
   console.log(role);
+  const roleToString = role.toString();
+  console.log(roleToString);
   try {
-    if (nile.userId === user_id || role === 'admin' || role === 'owner') {
+    if (
+      nile.userId === user_id ||
+      roleToString === "admin" ||
+      roleToString === "owner"
+    ) {
       await nile
         .db("users.tenant_users")
         .where({
