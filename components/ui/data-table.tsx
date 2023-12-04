@@ -44,9 +44,8 @@ export function DataTable<TData, TValue>({
     state: {
       columnFilters,
     },
-   
   });
-
+  console.log("DATA TABLE ==>", data);
   return (
     <div>
       <div className="flex items-center py-4">

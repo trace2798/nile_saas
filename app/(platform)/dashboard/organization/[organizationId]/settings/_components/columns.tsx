@@ -9,12 +9,14 @@ export type BillboardColumn = {
   email: string;
   createdAt: string;
   name: string;
+  role: string;
 };
 
 export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "name",
     header: "Name",
+    cell: ({ row }) => <div className="capitalize">{row.getValue("name")}</div>,
   },
   {
     accessorKey: "email",
@@ -23,6 +25,13 @@ export const columns: ColumnDef<BillboardColumn>[] = [
   {
     accessorKey: "created",
     header: "Date",
+  },
+  {
+    accessorKey: "roles",
+    header: "Role",
+    cell: ({ row }) => (
+      <div className="capitalize">{row.getValue("roles")}</div>
+    ),
   },
 
   {

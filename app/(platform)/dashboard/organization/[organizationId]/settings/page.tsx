@@ -24,12 +24,36 @@ const page = async ({}) => {
   const memberIds = await nile
     .db("users.tenant_users")
     .where({ tenant_id: number })
-    .select("user_id");
+    .select("user_id", "roles");
   console.log(memberIds);
+  // const userInfos = await Promise.all(
+  //   memberIds.map(async (memberId) => {
+  //     const userId = memberId.user_id;
+  //     return await nile.db("users.users").where({ id: userId }).select("*");
+  //   })
+  // );
+  // const userInfos = await Promise.all(
+  //   memberIds.map(async (memberId) => {
+  //     const userId = memberId.user_id;
+  //     const userInfo = await nile
+  //       .db("users.users")
+  //       .where({ id: userId })
+  //       .select("*");
+  //     return {
+  //       ...userInfo[0], // assuming userInfo is an array with a single object
+  //       roles: memberId.roles,
+  //     };
+  //   })
+  // );
   const userInfos = await Promise.all(
     memberIds.map(async (memberId) => {
       const userId = memberId.user_id;
-      return await nile.db("users.users").where({ id: userId }).select("*");
+      const userInfoArray = await nile.db("users.users").where({ id: userId }).select("*");
+      const userInfo = userInfoArray[0]; // get the user object from the array
+      return {
+        ...userInfo,
+        roles: memberId.roles
+      };
     })
   );
   console.log(userInfos);
@@ -37,17 +61,7 @@ const page = async ({}) => {
   console.log(users);
   return (
     <>
-      {/* <div>Settings Page</div> */}
       <div className="w-full">
-        {/* {userInfos.map((userArray) => (
-          <div key={userArray[0].id}>
-            {userArray.map((userInfo) => (
-              <div key={userInfo.id}>
-                <p>{userInfo.email}</p>
-              </div>
-            ))}
-          </div>
-        ))} */}
         <ComboboxForm users={users} tenantId={number} />
         <BillboardClient data={userInfos} />
       </div>
@@ -56,4 +70,3 @@ const page = async ({}) => {
 };
 
 export default page;
-// 018be8a9-0d66-7ae9-91cc-d09678c883dc
