@@ -21,8 +21,42 @@ export async function POST(req: Request) {
     const tenant = await createTenantResponse.json();
     const tenantID = tenant.id;
     console.log("created tenant with tenantID: ", tenantID);
+    // const userInfo = await nile.db("users.users").where({
+    //   id: nile.userId,
+    // });
+    // await nile
+    //   .db("users.tenant_users")
+    //   .where({
+    //     tenant_id: tenantID,
+    //     user_id: nile.userId,
+    //   })
+    //   .insert({
+    //     email: userInfo[0].email,
+    //     roles: ["owner"],
+    //   });
+
+    const userInfo = await nile.db("users.users").where({
+      id: nile.userId,
+    });
+    console.log(userInfo);
+
+    const res = await nile
+      .db("users.tenant_users")
+      .where({
+        tenant_id: tenantID,
+        user_id: nile.userId,
+      })
+      .update({
+        email: userInfo[0].email,
+        roles: ["owner"],
+      });
+    console.log("after response");
+    console.log(res);
+
     return new NextResponse("Tenant Created", { status: 200 });
   } catch (error) {
     return new NextResponse("Internal Error Tenants route", { status: 500 });
   }
 }
+
+// DELETE FROM users.tenant_users WHERE tenant_id = '018c3550-939b-7bcd-9941-4a75f48d6f4c';
