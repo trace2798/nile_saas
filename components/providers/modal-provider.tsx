@@ -21,7 +21,7 @@ export const ModalProvider = () => {
   return (
     <>
       <OrganizationModal />
-      <CardModal />
+      {/* <CardModal /> */}
       <ProModal />
       <AddMemberModal />
     </>

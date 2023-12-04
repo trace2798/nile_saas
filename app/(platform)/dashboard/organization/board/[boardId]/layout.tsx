@@ -4,6 +4,8 @@ import nile from "@/lib/NileServer";
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import { BoardNavbar } from "./_components/board-navbar";
+import { CardModal } from "@/components/modals/card-modal";
+import { CardModalProvider } from "@/components/providers/card-modal-provider";
 
 // import { db } from "@/lib/db";
 
@@ -64,6 +66,8 @@ const BoardIdLayout = async ({
       style={{ backgroundImage: `url(${board[0].imagefullurl})` }}
     >
       <BoardNavbar data={board} />
+      {board ? <CardModalProvider /> : null}
+
       <div className="absolute inset-0 bg-black/10" />
       <main className="relative pt-28 h-full">{children}</main>
     </div>

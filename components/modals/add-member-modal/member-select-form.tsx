@@ -37,8 +37,9 @@ const formSchema = z.object({
   tenantId: z.string().min(2).max(50),
   user_id: z.string().min(2).max(256),
   email: z.string(),
+  roles: z.string(),
 });
-
+const roles = ["owner", "guest", "admin", "member"];
 const ComboboxForm = ({
   tenantId,
   users,
@@ -54,6 +55,7 @@ const ComboboxForm = ({
       tenantId: tenantId,
       email: "",
       user_id: "",
+      roles: "guest",
     },
   });
   type FormData = z.infer<typeof formSchema>;
@@ -66,7 +68,7 @@ const ComboboxForm = ({
       // form.reset();
       // toast("Member Added");
       // router.refresh();
-      const result = await addMember(tenantId, values.email, values.user_id);
+      const result = await addMember(tenantId, values.email, values.user_id, values.roles);
       if (result?.message === "User already exists in the organization") {
         toast("User already exists in the organization");
       } else {
@@ -131,6 +133,64 @@ const ComboboxForm = ({
                             )}
                           />
                           {user.email}
+                        </CommandItem>
+                      ))}
+                    </CommandGroup>
+                  </Command>
+                </PopoverContent>
+              </Popover>
+              <FormDescription>
+                Once submitted the user will be added to this organization.
+              </FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <FormField
+          control={form.control}
+          name="roles"
+          render={({ field }) => (
+            <FormItem className="flex flex-col">
+              <FormLabel>Select a Role</FormLabel>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <FormControl>
+                    <Button
+                      variant="outline"
+                      role="combobox"
+                      className={cn(
+                        "w-[200px] justify-between capitalize",
+                        !field.value && "text-muted-foreground"
+                      )}
+                    >
+                      {field.value
+                        ? roles.find((role: string) => role === field.value)
+                        : "Select Role"}
+                      <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                    </Button>
+                  </FormControl>
+                </PopoverTrigger>
+                <PopoverContent className="w-[200px] p-0">
+                  <Command>
+                    <CommandInput placeholder="Search user..." />
+                    <CommandEmpty>No user found.</CommandEmpty>
+                    <CommandGroup>
+                      {roles.map((role: string, index) => (
+                        <CommandItem
+                          value={role}
+                          key={index}
+                          className="capitalize"
+                          onSelect={() => {
+                            form.setValue("roles", role);
+                          }}
+                        >
+                          <Check
+                            className={cn(
+                              "mr-2 h-4 w-4",
+                              role === field.value ? "opacity-100" : "opacity-0"
+                            )}
+                          />
+                          {role}
                         </CommandItem>
                       ))}
                     </CommandGroup>

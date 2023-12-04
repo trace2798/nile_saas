@@ -12,6 +12,8 @@ export async function GET(
 ) {
   try {
     // const { userId, orgId } = auth();
+    const body = await req.json();
+    console.log(body);
     configureNile(cookies().get("authData"), null);
     console.log(nile.userId);
     // const { title, boardId, listId, tenant_id } = data;
@@ -43,18 +45,20 @@ export async function GET(
     //     },
     //   },
     // });
+    console.log("cardId: ", params.cardId);
     const card = await nile
-    .db("card")
-    .join("list", "card.list_id", "=", "list.id")
-    .join("board", "list.board_id", "=", "board.id")
-    .select("card.*", {"listTitle": "list.title"})
-    .where({
-      "card.id": params.cardId,
-    })
-    .first();
-    console.log(card)
+      .db("card")
+      .join("list", "card.list_id", "=", "list.id")
+      .join("board", "list.board_id", "=", "board.id")
+      .select("card.*", { listTitle: "list.title" })
+      .where({
+        "card.id": params.cardId,
+      })
+      .first();
+    console.log(card);
     return NextResponse.json(card);
   } catch (error) {
-    return new NextResponse("Internal Error", { status: 500 });
+    console.log(error);
+    return new NextResponse("Internal Error Card ID Route", { status: 500 });
   }
 }

@@ -7,7 +7,8 @@ import { cookies } from "next/headers";
 export async function addMember(
   tenantId: string,
   email: string,
-  user_id: string
+  user_id: string,
+  roles: string
 ) {
   configureNile(cookies().get("authData"), tenantId);
   console.log(
@@ -16,7 +17,7 @@ export async function addMember(
       "with id of" +
       user_id +
       " to tenant:" +
-      nile.tenantId
+      nile.tenantId + " with role: " + roles
   );
   try {
     // const id = uuid.v4();
@@ -29,11 +30,18 @@ export async function addMember(
       console.log("User already exists in the organization");
       return { message: "User already exists in the organization" };
     }
-
-    await nile.db("users.tenant_users").insert({
-      tenant_id: tenantId,
-      user_id: user_id,
+    const userInfo = await nile.db("users.users").where({
+      id: user_id,
     });
+    console.log(userInfo);
+    console.log(roles);
+    const res = await nile.db("users.tenant_users").insert({
+      tenant_id: tenantId,
+      user_id: userInfo[0].id,
+      email: userInfo[0].email,
+      // roles: roles,
+    });
+    console.log(res);
     return { message: "User Added" };
     // console.log("FRMO MEMBER ADD ACTION");
   } catch (e) {

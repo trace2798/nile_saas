@@ -23,6 +23,6 @@ export async function POST(req: Request) {
     console.log("created tenant with tenantID: ", tenantID);
     return new NextResponse("Tenant Created", { status: 200 });
   } catch (error) {
-    return new NextResponse("Internal Error", { status: 500 });
+    return new NextResponse("Internal Error Tenants route", { status: 500 });
   }
 }

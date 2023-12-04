@@ -25,6 +25,7 @@ export const CardModal = () => {
   const { data: cardData } = useQuery<CardWithListAndTitle>({
     queryKey: ["card", id],
     queryFn: () => fetcher(`/api/cards/${id}`),
+    enabled:!!id,
   });
 
   // const { data: auditLogsData } = useQuery<AuditLog[]>({
