@@ -1,9 +1,7 @@
 "use client";
 
-import axios from "axios";
-import { useState } from "react";
 import { Copy, Edit, MoreHorizontal, Trash } from "lucide-react";
-// import { toast } from "react-hot-toast";
+import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
@@ -14,11 +12,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-// import { AlertModal } from "@/components/modals/alert-modal";
-
-import { BillboardColumn } from "./columns";
-import { toast } from "sonner";
 import { AlertModal } from "@/components/modals/alert-modal";
+import { toast } from "sonner";
+import { BillboardColumn } from "./columns";
 import { removeMember } from "./member-action";
 
 interface CellActionProps {
@@ -35,9 +31,17 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
   const onConfirm = async () => {
     try {
       setLoading(true);
-      await removeMember(params.organizationId as string, data.id);
-      // await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
-      toast.success("User Removed.");
+      const response = await removeMember(
+        params.organizationId as string,
+        data.id
+      );
+      console.log(response);
+      if (response?.message === "Operation not permitted.") {
+        toast.error("Operation not permitted.");
+      } else {
+        toast.success("User Removed.");
+      }
+      //  toast.success("User Removed.");
       router.refresh();
     } catch (error) {
       toast.error("Failed to remove user");

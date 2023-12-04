@@ -54,11 +54,34 @@ export async function addMember(
   }
 }
 
-export async function removeMember(
-  tenantId: string,
-  // email: string,
-  user_id: string
-) {
+// export async function removeMember(tenantId: string, user_id: string) {
+//   configureNile(cookies().get("authData"), tenantId);
+//   console.log(
+//     "removing member " +
+//       // email +
+//       "with id of" +
+//       user_id +
+//       " from tenant:" +
+//       nile.tenantId +
+//       " by :" +
+//       nile.userId
+//   );
+//   try {
+
+//     await nile
+//       .db("users.tenant_users")
+//       .where({
+//         tenant_id: tenantId,
+//         user_id: user_id,
+//       })
+//       .del();
+//     console.log("Member Removed");
+//   } catch (e) {
+//     console.error(e);
+//     return { message: "Failed to remove member" };
+//   }
+// }
+export async function removeMember(tenantId: string, user_id: string) {
   configureNile(cookies().get("authData"), tenantId);
   console.log(
     "removing member " +
@@ -66,19 +89,28 @@ export async function removeMember(
       "with id of" +
       user_id +
       " from tenant:" +
-      nile.tenantId
+      nile.tenantId +
+      " by :" +
+      nile.userId
   );
+  console.log(nile)
+  const roleArray = await nile.db("users.tenant_users").where({ tenant_id: nile.tenantId, user_id: nile.userId }).select("roles");
+  const role = roleArray[0].roles;
+  console.log(role);
   try {
-    // const id = uuid.v4();
-    // need to set tenant ID because it is a required field
-    await nile
-      .db("users.tenant_users")
-      .where({
-        tenant_id: tenantId,
-        user_id: user_id,
-      })
-      .del();
-    console.log("Member Removed");
+    if (nile.userId === user_id || role === 'admin' || role === 'owner') {
+      await nile
+        .db("users.tenant_users")
+        .where({
+          tenant_id: tenantId,
+          user_id: user_id,
+        })
+        .del();
+      console.log("Member Removed");
+    } else {
+      console.log("Operation not permitted. User IDs do not match.");
+      return { message: "Operation not permitted." };
+    }
   } catch (e) {
     console.error(e);
     return { message: "Failed to remove member" };

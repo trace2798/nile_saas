@@ -1,14 +1,10 @@
 "use client";
 
-import { Plus } from "lucide-react";
 import { useParams, useRouter } from "next/navigation";
-
 import { Button } from "@/components/ui/button";
 import { DataTable } from "@/components/ui/data-table";
 import { Heading } from "@/components/heading";
 import { Separator } from "@/components/ui/separator";
-// import { ApiList } from "@/components/ui/api-list";
-
 import { columns, BillboardColumn } from "./columns";
 import { AddMemberModal } from "@/components/modals/add-member-modal/add-member-modal";
 import { useMemberModal } from "@/hooks/use-member-modal";
@@ -24,7 +20,7 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
   console.log(id);
   const router = useRouter();
   const memberModal = useMemberModal();
-  console.log(data)
+  console.log(data);
   // const flattenedData = data.reduce((acc, curr) => [...acc, ...curr], []);
   const flattenedData = [...data];
   return (
@@ -33,12 +29,9 @@ export const BillboardClient: React.FC<BillboardClientProps> = ({ data }) => {
         title={`Members (${data.length})`}
         description="Manage member for your organization"
       />
-  
       <Separator className="my-5" />
       <DataTable searchKey="email" columns={columns} data={flattenedData} />
-    
       <Separator />
- 
     </>
   );
 };
