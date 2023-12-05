@@ -102,6 +102,9 @@ export async function removeMember(tenantId: string, user_id: string) {
   console.log(role);
   const roleToString = role.toString();
   console.log(roleToString);
+  if (nile.userId === user_id && roleToString === "owner") {
+    return { message: "Owner cannot be removed." };
+  }
   try {
     if (
       nile.userId === user_id ||

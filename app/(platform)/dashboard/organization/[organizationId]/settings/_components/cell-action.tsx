@@ -36,11 +36,14 @@ export const CellAction: React.FC<CellActionProps> = ({ data }) => {
         data.id
       );
       console.log(response);
-      if (response?.message === "Operation not permitted.") {
+      if (response?.message === "Owner cannot be removed.") {
+        toast.error("Not permitted. Owner cannot be removed");
+      } else if (response?.message === "Operation not permitted.") {
         toast.error("Operation not permitted.");
       } else {
         toast.success("User Removed.");
       }
+
       //  toast.success("User Removed.");
       router.refresh();
     } catch (error) {

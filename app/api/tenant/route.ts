@@ -21,19 +21,6 @@ export async function POST(req: Request) {
     const tenant = await createTenantResponse.json();
     const tenantID = tenant.id;
     console.log("created tenant with tenantID: ", tenantID);
-    // const userInfo = await nile.db("users.users").where({
-    //   id: nile.userId,
-    // });
-    // await nile
-    //   .db("users.tenant_users")
-    //   .where({
-    //     tenant_id: tenantID,
-    //     user_id: nile.userId,
-    //   })
-    //   .insert({
-    //     email: userInfo[0].email,
-    //     roles: ["owner"],
-    //   });
 
     const userInfo = await nile.db("users.users").where({
       id: nile.userId,
