@@ -42,7 +42,8 @@ export const BoardList = async ({
     .select("*")
     .where({ tenant_id: organizationId });
   // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context
-  console.log(boards);
+  console.log(boards.length);
+
   // if(!boards.length === 0) {
   //   return <div>No boards</div>
   // }

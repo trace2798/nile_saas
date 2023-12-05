@@ -6,7 +6,7 @@ import { Building, CreditCard } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface InfoProps {
-  name: string | undefined;
+  name?: string | undefined;
 }
 
 export const Info = ({ name }: InfoProps) => {

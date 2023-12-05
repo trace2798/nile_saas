@@ -37,8 +37,8 @@ const page: FC<pageProps> = async ({}) => {
     <>
       {/* <div className="mt-24">Select Org or Create org logic will come here</div> */}
       <div className="ml-[5vw] flex flex-col justify-center items-center mt-24">
-        <Card className="max-w-sm p-3 flex items-center justify-center">
-          <AddOrgButton />
+        <Card className="max-w-sm p-3 flex flex-col items-center justify-center">
+          <AddOrgButton count={count} />
         </Card>
         <Separator className="max-w-xl my-5" />
         <Label className="text-lg">Your Organizations</Label>

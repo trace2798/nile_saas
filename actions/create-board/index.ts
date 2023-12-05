@@ -9,6 +9,7 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import { InputType, ReturnType } from "./types";
 import { CreateBoard } from "./schema";
 import nile from "@/lib/NileServer";
+import { getAvailableBoardCount } from "@/lib/board-limit";
 // import { createAuditLog } from "@/lib/create-audit-log";
 // import { ACTION, ENTITY_TYPE } from "@prisma/client";
 // import {
@@ -34,6 +35,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   //     error: "You have reached your limit of free boards. Please upgrade to create more."
   //   }
   // }
+  const boards = await nile
+    .db("board")
+    .select("id")
+    .where({ tenant_id: data.tenant_id });
+  // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context
+  console.log(boards.length);
+  const count = boards.length;
+
+  console.log(count);
 
   const { title, image, tenant_id } = data;
   console.log(title, image, tenant_id);
@@ -72,6 +82,30 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     // if (!isPro) {
     //  await incrementAvailableCount();
     // }
+    const boardCount = await nile
+      .db("board_count")
+      .where({
+        tenant_id: data.tenant_id,
+      })
+      .first();
+
+    if (boardCount) {
+      // If a row exists, increment the count
+      await nile
+        .db("board_count")
+        .where({
+          tenant_id: data.tenant_id,
+        })
+        .update({
+          count: count + 1,
+        });
+    } else {
+      // If no row exists, create a new row with count 1
+      await nile.db("board_count").insert({
+        tenant_id: data.tenant_id,
+        count: 1,
+      });
+    }
 
     // await createAuditLog({
     //   entityTitle: board.title,

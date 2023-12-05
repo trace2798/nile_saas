@@ -3,17 +3,21 @@ import { configureNile } from "./AuthUtils";
 import nile from "./NileServer";
 import { NextResponse } from "next/server";
 
-export const getAvailableTenantCount = async () => {
+export const getAvailableBoardCount = async ({
+  tenant_id,
+}: {
+  tenant_id: string;
+}) => {
   configureNile(cookies().get("authData"), null);
   if (!nile.userId) {
     return new NextResponse("Unauthorized");
   }
 
   const currentCount = await nile
-    .db("users.tenant_users")
+    .db("boards")
     .where({
       user_id: nile.userId,
-      roles: ["owner"],
+      tenant_id: tenant_id,
     })
     .count();
 
