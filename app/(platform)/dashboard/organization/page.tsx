@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import AddOrgButton from "./_components/add-org-button";
 import Link from "next/link";
+import { getAvailableTenantCount } from "@/lib/tenant-limit";
 
 interface pageProps {}
 
@@ -28,6 +29,10 @@ const page: FC<pageProps> = async ({}) => {
       .where("tenant_users.user_id", "=", nile.userId);
   }
   console.log(nile.userId);
+  const countResult = (await getAvailableTenantCount()) as { count: string }[];
+  const count = Number(countResult[0].count);
+  console.log(count);
+
   return (
     <>
       {/* <div className="mt-24">Select Org or Create org logic will come here</div> */}

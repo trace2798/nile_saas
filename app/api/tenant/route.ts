@@ -1,5 +1,6 @@
 import { configureNile, cookieOptions, NileJWTPayload } from "@/lib/AuthUtils";
 import nile from "@/lib/NileServer";
+import { getAvailableTenantCount } from "@/lib/tenant-limit";
 import jwtDecode from "jwt-decode";
 import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
@@ -15,6 +16,11 @@ export async function POST(req: Request) {
       return new NextResponse("Unauthorized");
     }
     console.log(body);
+    const countResult = (await getAvailableTenantCount()) as {
+      count: string;
+    }[];
+    const count = Number(countResult[0].count);
+    console.log(count);
     const createTenantResponse = await nile.api.tenants.createTenant({
       name: body.name,
     });
@@ -39,6 +45,31 @@ export async function POST(req: Request) {
       });
     console.log("after response");
     console.log(res);
+
+    const tenantCount = await nile
+      .db("tenant_count")
+      .where({
+        user_id: nile.userId,
+      })
+      .first();
+
+    if (tenantCount) {
+      // If a row exists, increment the count
+      await nile
+        .db("tenant_count")
+        .where({
+          user_id: nile.userId,
+        })
+        .update({
+          count: count + 1,
+        });
+    } else {
+      // If no row exists, create a new row with count 1
+      await nile.db("tenant_count").insert({
+        user_id: nile.userId,
+        count: 1,
+      });
+    }
 
     return new NextResponse("Tenant Created", { status: 200 });
   } catch (error) {
