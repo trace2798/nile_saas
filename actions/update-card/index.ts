@@ -39,6 +39,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
         title: values.title,
         description: values.description,
         status: values.status,
+        due_date: values.due_date,
       })
       .returning("*");
     // await createAuditLog({

@@ -31,4 +31,10 @@ export const UpdateCard = z.object({
       invalid_type_error: "Description is required",
     })
   ),
+  due_date: z.optional(
+    z.string({
+      required_error: "Status is required",
+      invalid_type_error: "Description is required",
+    })
+  ),
 });

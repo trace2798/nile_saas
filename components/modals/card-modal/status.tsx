@@ -1,18 +1,11 @@
 "use client";
 
-import { toast } from "sonner";
-import { AlignLeft, LayoutList, Moon, Sun } from "lucide-react";
-import { useParams } from "next/navigation";
-import { useState, useRef, ElementRef } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useEventListener, useOnClickOutside } from "usehooks-ts";
+import { LayoutList } from "lucide-react";
+import { useParams } from "next/navigation";
+import { toast } from "sonner";
 
-import { useAction } from "@/hooks/use-action";
 import { updateCard } from "@/actions/update-card";
-import { CardWithList } from "@/types";
-import { Skeleton } from "@/components/ui/skeleton";
-import { FormTextarea } from "@/components/form/form-textarea";
-import { FormSubmit } from "@/components/form/form-submit";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -20,6 +13,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAction } from "@/hooks/use-action";
+import { CardWithList } from "@/types";
 
 interface StatusProps {
   data: CardWithList;
@@ -43,7 +39,7 @@ export const Status = ({ data }: StatusProps) => {
       toast.error(error);
     },
   });
-
+  console.log(data);
   const onSubmit = (status: string) => {
     const boardId = params.boardId as string;
     const tenant_id = data.tenant_id;
@@ -60,10 +56,10 @@ export const Status = ({ data }: StatusProps) => {
   const statusOptions = ["to-do", "in-progress", "done", "non-applicable"];
 
   return (
-    <div className="flex items-start gap-x-3 w-full">
+    <div className="flex items-center gap-x-3 w-full">
       <LayoutList className="h-5 w-5 mt-0.5 text-muted-foreground" />
       <div className="w-full flex items-center gap-x-2">
-        <p className="font-semibold text-muted-foreground mb-2">Status</p>
+        <p className="font-semibold text-muted-foreground">Status</p>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="default" className="capitalize">
