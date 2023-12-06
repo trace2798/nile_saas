@@ -1,11 +1,7 @@
 "use server";
 
-// import { auth } from "@clerk/nextjs";
 import { revalidatePath } from "next/cache";
-
-// import { db } from "@/lib/db";
 import { createSafeAction } from "@/lib/create-safe-action";
-
 import { UpdateCard } from "./schema";
 import { InputType, ReturnType } from "./types";
 import { configureNile } from "@/lib/AuthUtils";
@@ -38,10 +34,11 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   try {
     card = await nile
       .db("card")
-      .where({ id: id, tenant_id: tenant_id, list_id: values.list_id })
+      .where({ id: id, tenant_id: tenant_id, list_id: values.list_id, })
       .update({
         title: values.title,
         description: values.description,
+        status: values.status,
       })
       .returning("*");
     // await createAuditLog({

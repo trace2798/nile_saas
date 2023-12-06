@@ -16,6 +16,10 @@ export type Card = {
   list_id: string;
   createdAt: Date;
   updatedAt: Date;
+  status: string;
+  assign_id: string;
+  assign_name: string;
+  due_date: Date;
 };
 
 export type Board = {

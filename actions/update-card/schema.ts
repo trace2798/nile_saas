@@ -25,4 +25,10 @@ export const UpdateCard = z.object({
   id: z.string(),
   tenant_id: z.string(),
   list_id: z.string(),
+  status: z.optional(
+    z.string({
+      required_error: "Status is required",
+      invalid_type_error: "Description is required",
+    })
+  ),
 });

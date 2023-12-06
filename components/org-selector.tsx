@@ -1,8 +1,8 @@
 "use client";
 
 import { DropdownMenuItem } from "@radix-ui/react-dropdown-menu";
-import { ChevronDownIcon } from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -10,16 +10,15 @@ import {
   DropdownMenuLabel,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
-import { useState } from "react";
 
 const OrgSelector = ({ orgs }: { orgs: any }) => {
   const router = useRouter();
+  const param = usePathname();
   console.log(orgs);
   // const handleSelect = (id: string) => {
   //   router.push(`/dashboard/organization/${id}`);
   // };
   const [selectedOrg, setSelectedOrg] = useState("Change organization");
-  const param = usePathname();
   console.log(param);
 
   const handleSelect = (id: string, name: string) => {
