@@ -34,12 +34,14 @@ const handler = async (data: InputType): Promise<ReturnType> => {
   try {
     card = await nile
       .db("card")
-      .where({ id: id, tenant_id: tenant_id, list_id: values.list_id, })
+      .where({ id: id, tenant_id: tenant_id, list_id: values.list_id })
       .update({
         title: values.title,
         description: values.description,
         status: values.status,
         due_date: values.due_date,
+        assign_id: values.assign_id,
+        assign_name: values.assign_name,
       })
       .returning("*");
     // await createAuditLog({

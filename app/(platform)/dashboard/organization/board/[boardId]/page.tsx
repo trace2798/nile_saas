@@ -26,6 +26,28 @@ console.log(lists)
     .select("*")
     .where({ id: params.boardId });
   console.log(tenant);
+
+  const memberIds = await nile
+    .db("users.tenant_users")
+    .where({ tenant_id: tenant[0].tenant_id })
+    .select("user_id");
+  console.log(memberIds);
+
+  const userInfos = await Promise.all(
+    memberIds.map(async (memberId) => {
+      const userId = memberId.user_id;
+      const userInfoArray = await nile
+        .db("users.users")
+        .where({ id: userId })
+        .select("*");
+      const userInfo = userInfoArray[0]; // get the user object from the array
+      return {
+        ...userInfo,
+        roles: memberId.roles,
+      };
+    })
+  );
+  console.log(userInfos);
   return (
     <>
       <div className="p-4 h-full overflow-x-auto">
@@ -33,6 +55,7 @@ console.log(lists)
           boardId={params.boardId}
           data={lists}
           tenant_id={tenant[0].tenant_id}
+          userInfo={userInfos}
         />
       </div>
     </>

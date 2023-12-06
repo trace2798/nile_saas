@@ -10,9 +10,10 @@ import { format } from "date-fns";
 interface CardItemProps {
   data: Card;
   index: number;
+  userInfo: any;
 }
 
-export const CardItem = ({ data, index }: CardItemProps) => {
+export const CardItem = ({ data, index, userInfo }: CardItemProps) => {
   const cardModal = useCardModal();
 
   return (
@@ -23,7 +24,7 @@ export const CardItem = ({ data, index }: CardItemProps) => {
           {...provided.dragHandleProps}
           ref={provided.innerRef}
           role="button"
-          onClick={() => cardModal.onOpen(data.id)}
+          onClick={() => cardModal.onOpen(data.id, userInfo)}
           className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white dark:bg-zinc-800 rounded-md shadow-sm"
         >
           {data.title}
@@ -46,6 +47,15 @@ export const CardItem = ({ data, index }: CardItemProps) => {
               <></>
             )}
           </div>
+          {data.assign_name ? (
+            <>
+              <h1 className="text-xs capitalize mt-1">
+                Assigned To: {data.assign_name}
+              </h1>
+            </>
+          ) : (
+            <></>
+          )}
         </div>
       )}
     </Draggable>

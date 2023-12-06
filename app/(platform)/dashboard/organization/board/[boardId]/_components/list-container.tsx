@@ -17,6 +17,7 @@ interface ListContainerProps {
   data: ListWithCards[];
   boardId: string;
   tenant_id: string;
+  userInfo: any;
 }
 
 function reorder<T>(list: T[], startIndex: number, endIndex: number) {
@@ -31,6 +32,7 @@ export const ListContainer = ({
   data,
   boardId,
   tenant_id,
+  userInfo,
 }: ListContainerProps) => {
   const [orderedData, setOrderedData] = useState(data);
 
@@ -167,7 +169,7 @@ export const ListContainer = ({
             className="flex gap-x-3 h-full"
           >
             {orderedData.map((list, index) => {
-              return <ListItem key={list.id} index={index} data={list} />;
+              return <ListItem key={list.id} index={index} data={list} userInfo={userInfo} />;
             })}
             {provided.placeholder}
             <ListForm tenant_id={tenant_id} />

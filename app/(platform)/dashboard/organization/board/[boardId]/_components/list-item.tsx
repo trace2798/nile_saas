@@ -13,11 +13,13 @@ import { ListHeader } from "./list-header";
 interface ListItemProps {
   data: ListWithCards;
   index: number;
+  userInfo: any;
 }
 
-export const ListItem = ({ data, index }: ListItemProps) => {
+export const ListItem = ({ data, index, userInfo }: ListItemProps) => {
   const textareaRef = useRef<ElementRef<"textarea">>(null);
   console.log(data);
+  console.log(userInfo)
   const [isEditing, setIsEditing] = useState(false);
 
   const disableEditing = () => {
@@ -55,7 +57,7 @@ export const ListItem = ({ data, index }: ListItemProps) => {
                   )}
                 >
                   {data.cards.map((card, index) => (
-                    <CardItem index={index} key={card.id} data={card} />
+                    <CardItem index={index} key={card.id} data={card} userInfo={userInfo} />
                     // <h1 key={index}>{card.title}</h1>
                   ))}
                   {provided.placeholder}
