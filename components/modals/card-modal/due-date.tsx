@@ -17,7 +17,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
 import { cn } from "@/lib/utils";
 import { CardWithList } from "@/types";
-import { format } from "date-fns";
+import { format, set } from "date-fns";
+import React from "react";
 
 interface DueDateProps {
   data: CardWithList;
@@ -26,7 +27,9 @@ interface DueDateProps {
 export const DueDate = ({ data }: DueDateProps) => {
   const params = useParams();
   const queryClient = useQueryClient();
-
+  const [date, setDate] = React.useState<Date | undefined>(
+    data.due_date || new Date()
+  );
   const { execute } = useAction(updateCard, {
     onSuccess: (data) => {
       queryClient.invalidateQueries({
@@ -49,6 +52,7 @@ export const DueDate = ({ data }: DueDateProps) => {
     const utcDate = new Date(
       Date.UTC(due_date.getFullYear(), due_date.getMonth(), due_date.getDate())
     );
+    setDate(utcDate);
     const boardId = params.boardId as string;
     const tenant_id = data.tenant_id;
     const list_id = data.list_id;
@@ -60,7 +64,9 @@ export const DueDate = ({ data }: DueDateProps) => {
       due_date: utcDate.toISOString(),
     });
   };
-
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  console.log(data.due_date);
   return (
     <div className="flex items-center gap-x-3 w-full">
       <CalendarDays className="h-5 w-5 mt-0.5 text-muted-foreground" />
@@ -68,7 +74,6 @@ export const DueDate = ({ data }: DueDateProps) => {
         <p className="font-semibold text-muted-foreground">Due Date</p>
         <Popover>
           <PopoverTrigger asChild>
-            {/* <FormControl> */}
             <Button
               variant={"outline"}
               className={cn(
@@ -83,15 +88,29 @@ export const DueDate = ({ data }: DueDateProps) => {
               )}
               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
             </Button>
-            {/* </FormControl> */}
           </PopoverTrigger>
           <PopoverContent className="w-auto p-0" align="start">
-            <Calendar
-              mode="single"
-              selected={data.due_date}
-              onSelect={onSubmit}
-              initialFocus
-            />
+            {data.due_date ? (
+              <>
+                <Calendar
+                  mode="single"
+                  selected={data.due_date}
+                  onSelect={onSubmit}
+                  initialFocus
+                  disabled={(date) => date < today}
+                />
+              </>
+            ) : (
+              <>
+                <Calendar
+                  mode="single"
+                  selected={new Date()}
+                  onSelect={onSubmit}
+                  initialFocus
+                  disabled={(date) => date < today}
+                />
+              </>
+            )}
           </PopoverContent>
         </Popover>
       </div>
