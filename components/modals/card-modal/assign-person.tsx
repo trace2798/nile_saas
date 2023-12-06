@@ -1,7 +1,7 @@
 "use client";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { LayoutList } from "lucide-react";
+import { Check, LayoutList } from "lucide-react";
 import { useParams } from "next/navigation";
 import { toast } from "sonner";
 
@@ -16,6 +16,19 @@ import {
 import { Skeleton } from "@/components/ui/skeleton";
 import { useAction } from "@/hooks/use-action";
 import { CardWithList } from "@/types";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+import { cn } from "@/lib/utils";
 
 interface AssignPersonProps {
   data: CardWithList;
@@ -62,7 +75,7 @@ export const AssignPerson = ({ data, users }: AssignPersonProps) => {
       <LayoutList className="h-5 w-5 mt-0.5 text-muted-foreground" />
       <div className="w-full flex items-center gap-x-2">
         <p className="font-semibold text-muted-foreground">Assign To:</p>
-        <DropdownMenu>
+        {/* <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" size="default" className="capitalize">
               {data.assign_name || "Select Assignee"}
@@ -79,7 +92,37 @@ export const AssignPerson = ({ data, users }: AssignPersonProps) => {
               </DropdownMenuItem>
             ))}
           </DropdownMenuContent>
-        </DropdownMenu>
+        </DropdownMenu> */}
+        <Popover>
+          <PopoverTrigger asChild>
+            <Button variant="outline" role="combobox" className="capitalize">
+              {data.assign_name || "Select Assignee"}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent align="end">
+            <Command>
+              <CommandInput placeholder="Search user..." />
+              <CommandEmpty>No user found.</CommandEmpty>
+              <CommandGroup>
+                {users.map((user: any) => (
+                  <CommandItem
+                    value={user.id}
+                    key={user.id}
+                    onSelect={() => onSubmit(user.id, user.name)}
+                  >
+                    <Check
+                      className={cn(
+                        "mr-2 h-4 w-4",
+                        user.id === data.assign_id ? "opacity-100" : "opacity-0"
+                      )}
+                    />
+                    {user.name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            </Command>
+          </PopoverContent>
+        </Popover>
       </div>
     </div>
   );
