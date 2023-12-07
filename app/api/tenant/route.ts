@@ -71,6 +71,14 @@ export async function POST(req: Request) {
       });
     }
 
+    await nile.db("audit_log").insert({
+      user_id: nile.userId,
+      tenant_id: tenantID,
+      user_name: userInfo[0].name,
+      user_picture: userInfo[0].picture,
+      message: `${userInfo[0].name} created a new organization called ${body.name}`,
+    });
+
     return new NextResponse("Tenant Created", { status: 200 });
   } catch (error) {
     return new NextResponse("Internal Error Tenants route", { status: 500 });

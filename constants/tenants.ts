@@ -1,1 +1,1 @@
-export const MAX_FREE_TENANTS = 1;
+export const MAX_FREE_TENANTS = 2;

@@ -14,6 +14,7 @@ import { Actions } from "./actions";
 import { Status } from "./status";
 import { DueDate } from "./due-date";
 import { AssignPerson } from "./assign-person";
+import { Activity } from "./activity";
 // import { Activity } from "./activity";
 
 interface CardWithListAndTitle extends CardWithList {
@@ -56,10 +57,10 @@ export const CardModal = () => {
               ) : (
                 <Description data={cardData} />
               )}
-              {/* {!auditLogsData
+              {!cardData
                 ? <Activity.Skeleton />
-                : <Activity items={auditLogsData} />
-              } */}
+                : <Activity  />
+              }
             </div>
           </div>
           {!cardData ? <Actions.Skeleton /> : <Actions data={cardData} />}

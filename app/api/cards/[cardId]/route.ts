@@ -11,9 +11,6 @@ export async function GET(
   { params }: { params: { cardId: string } }
 ) {
   try {
-    // const { userId, orgId } = auth();
-    // const body = await req.json();
-    // console.log(body);
     configureNile(cookies().get("authData"), null);
     console.log(nile.userId);
     // const { title, boardId, listId, tenant_id } = data;
