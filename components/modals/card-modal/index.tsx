@@ -32,12 +32,13 @@ export const CardModal = () => {
     enabled: !!id,
   });
 
-  // const { data: auditLogsData } = useQuery<AuditLog[]>({
-  //   queryKey: ["card-logs", id],
-  //   queryFn: () => fetcher(`/api/cards/${id}/logs`),
-  // });
+  const { data: auditLogsData } = useQuery<any[]>({
+    queryKey: ["card-logs", id],
+    queryFn: () => fetcher(`/api/cards/${id}/logs`),
+  });
   console.log(cardData);
   console.log(users);
+  console.log(auditLogsData)
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent>
@@ -57,9 +58,9 @@ export const CardModal = () => {
               ) : (
                 <Description data={cardData} />
               )}
-              {!cardData
+              {!auditLogsData
                 ? <Activity.Skeleton />
-                : <Activity  />
+                : <Activity items={auditLogsData} />
               }
             </div>
           </div>

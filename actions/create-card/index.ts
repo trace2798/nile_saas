@@ -85,6 +85,7 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       tenant_id: data.tenant_id,
       board_id: boardId,
       list_id: listId,
+      card_id: card[0].id,
       user_name: userInfo[0].name,
       user_picture: userInfo[0].picture,
       message: `${userInfo[0].name} created a card called ${card[0].title} on list: ${list[0].title}`,
