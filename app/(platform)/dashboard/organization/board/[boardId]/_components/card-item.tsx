@@ -58,7 +58,7 @@ export const CardItem = ({ data, index, userInfo }: CardItemProps) => {
             {data.due_date ? (
               <>
                 <h1 className="text-xs capitalize">
-                  Due: {format(new Date(data.due_date), "MMM d, yyyy")}
+                  Due: <span className="text-red-400">{format(new Date(data.due_date), "MMM d, yyyy")}</span>
                 </h1>
               </>
             ) : (
