@@ -29,12 +29,12 @@ ActivityProps) => {
       <div className="w-full">
         <p className="font-semibold text-muted-foreground mb-2">Activity</p>
         <ol className="mt-2 space-y-4">
-          {items.map((item) => (
+          {items.map((item, index) => (
             // <ActivityItem
             //   key={item.id}
             //   data={item}
             // />
-            <Card className="border rounded-lg max-w-sm mx-auto shadow-sm overflow-hidden">
+            <Card key={index} className="border rounded-lg max-w-sm mx-auto shadow-sm overflow-hidden">
               <CardContent className="flex items-center space-x-4 p-2">
                 <Avatar className="relative overflow-visible">
                   {/* <span className="absolute right-0 top-0 flex h-3 w-3 rounded-full bg-green-600" /> */}
