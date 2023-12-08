@@ -17,11 +17,14 @@ const page: FC<pageProps> = async ({}) => {
   const parts = referer.split("/");
   const number = parts[5];
   console.log(number);
-  const activity = await nile.db("audit_log").where({ tenant_id: number });
+  const activity = await nile
+    .db("audit_log")
+    .where({ tenant_id: number })
+    .orderBy("changed_at", "desc");
   console.log(activity);
   return (
     <>
-      <div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {activity.map((item, index) => (
           <ActivityCard activity={item} key={index} />
         ))}

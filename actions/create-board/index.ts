@@ -8,6 +8,8 @@ import { createSafeAction } from "@/lib/create-safe-action";
 import nile from "@/lib/NileServer";
 import { CreateBoard } from "./schema";
 import { InputType, ReturnType } from "./types";
+import { configureNile } from "@/lib/AuthUtils";
+import { cookies } from "next/headers";
 // import { createAuditLog } from "@/lib/create-audit-log";
 // import { ACTION, ENTITY_TYPE } from "@prisma/client";
 // import {
@@ -17,22 +19,7 @@ import { InputType, ReturnType } from "./types";
 // import { checkSubscription } from "@/lib/subscription";
 
 const handler = async (data: InputType): Promise<ReturnType> => {
-  // const { userId, orgId } = auth();
-
-  // if (!userId || !orgId) {
-  //   return {
-  //     error: "Unauthorized",
-  //   };
-  // }
-
-  // const canCreate = await hasAvailableCount();
-  // const isPro = await checkSubscription();
-
-  // if (!canCreate && !isPro) {
-  //   return {
-  //     error: "You have reached your limit of free boards. Please upgrade to create more."
-  //   }
-  // }
+  configureNile(cookies().get("authData"), null);
   const boards = await nile
     .db("board")
     .select("id")
@@ -62,64 +49,86 @@ const handler = async (data: InputType): Promise<ReturnType> => {
 
   let board;
 
-  try {
-    console.log(data.title, image);
-    board = await nile
-      .db("board")
-      .insert({
-        tenant_id: data.tenant_id,
-        title: data.title,
-        imageid: imageId,
-        imagethumburl: imageThumbUrl,
-        imagefullurl: imageFullUrl,
-        imageusername: imageUserName,
-        imagelinkhtml: imageLinkHTML,
-      })
-      .returning("*");
-    console.log(board);
-    // if (!isPro) {
-    //  await incrementAvailableCount();
-    // }
-    const boardCount = await nile
-      .db("board_count")
-      .where({
-        tenant_id: data.tenant_id,
-      })
-      .first();
-
-    if (boardCount) {
-      // If a row exists, increment the count
-      await nile
-        .db("board_count")
-        .where({
-          tenant_id: data.tenant_id,
-        })
-        .update({
-          count: count + 1,
+  if (nile.userId) {
+    try {
+      try {
+        const userInfo = await nile.db("users.users").where({
+          id: nile.userId,
         });
-    } else {
-      // If no row exists, create a new row with count 1
-      await nile.db("board_count").insert({
-        tenant_id: data.tenant_id,
-        count: 1,
-      });
-    }
+        console.log(userInfo);
 
-    // await createAuditLog({
-    //   entityTitle: board.title,
-    //   entityId: board.id,
-    //   entityType: ENTITY_TYPE.BOARD,
-    //   action: ACTION.CREATE,
-    // })
-  } catch (error) {
-    console.log(error);
+        console.log(data.title, image);
+        board = await nile
+          .db("board")
+          .insert({
+            tenant_id: data.tenant_id,
+            title: data.title,
+            imageid: imageId,
+            imagethumburl: imageThumbUrl,
+            imagefullurl: imageFullUrl,
+            imageusername: imageUserName,
+            imagelinkhtml: imageLinkHTML,
+          })
+          .returning("*");
+        console.log(board);
+
+        // if (!isPro) {
+        //  await incrementAvailableCount();
+        // }
+
+        const boardCount = await nile
+          .db("board_count")
+          .where({
+            tenant_id: data.tenant_id,
+          })
+          .first();
+
+        if (boardCount) {
+          // If a row exists, increment the count
+          await nile
+            .db("board_count")
+            .where({
+              tenant_id: data.tenant_id,
+            })
+            .update({
+              count: count + 1,
+            });
+        } else {
+          // If no row exists, create a new row with count 1
+          await nile.db("board_count").insert({
+            tenant_id: data.tenant_id,
+            count: 1,
+          });
+        }
+
+        await nile.db("audit_log").insert({
+          user_id: nile.userId,
+          tenant_id: data.tenant_id,
+          user_name: userInfo[0].name,
+          user_picture: userInfo[0].picture,
+          message: `${userInfo[0].name} created a board called ${board[0].title}`,
+        });
+      } catch (error) {
+        console.log(error);
+        return {
+          error: "Failed to create.",
+        };
+      }
+
+      // revalidatePath(`/board/${board.id}`);
+      return { data: board };
+    } catch (error) {
+      console.log(error);
+      return {
+        error: "Failed to create.",
+      };
+    }
+  } else {
+    console.log("nile.userId is undefined");
     return {
-      error: "Failed to create.",
+      error: "User ID is undefined. Failed to create board.",
     };
   }
-
-  // revalidatePath(`/board/${board.id}`);
-  return { data: board };
 };
 
 export const createBoard = createSafeAction(CreateBoard, handler);

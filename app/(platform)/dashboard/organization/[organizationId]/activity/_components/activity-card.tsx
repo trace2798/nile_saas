@@ -14,7 +14,7 @@ import { format } from "date-fns";
 
 export default function ActivityCard({ activity }: { activity: any }) {
   return (
-    <Card className="border rounded-lg max-w-sm mx-auto shadow-sm overflow-hidden">
+    <Card className="border rounded-lg max-w-sm mx-auto shadow-sm overflow-hidden m-1">
       <CardContent className="flex items-center space-x-4 p-6">
         <Avatar className="relative overflow-visible">
           {/* <span className="absolute right-0 top-0 flex h-3 w-3 rounded-full bg-green-600" /> */}

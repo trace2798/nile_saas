@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { Building, CreditCard } from "lucide-react";
 
 import { Skeleton } from "@/components/ui/skeleton";
