@@ -28,7 +28,11 @@ export const CardItem = ({ data, index, userInfo }: CardItemProps) => {
           className="truncate border-2 border-transparent hover:border-black py-2 px-3 text-sm bg-white dark:bg-zinc-800 rounded-md shadow-sm"
         >
           {data.title}
-          <Separator className="bg-zinc-600 my-1" />
+          {data.status || data.due_date || data.assign_name ? (
+            <Separator className="bg-zinc-600 my-1" />
+          ) : (
+            ""
+          )}
           <div className="flex flex-row justify-between">
             {data.status ? (
               <>

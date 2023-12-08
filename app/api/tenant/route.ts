@@ -76,7 +76,7 @@ export async function POST(req: Request) {
       tenant_id: tenantID,
       user_name: userInfo[0].name,
       user_picture: userInfo[0].picture,
-      message: `${userInfo[0].name} created a new organization called ${body.name}`,
+      message: `${userInfo[0].name} created this organization called ${body.name}`,
     });
 
     return new NextResponse("Tenant Created", { status: 200 });

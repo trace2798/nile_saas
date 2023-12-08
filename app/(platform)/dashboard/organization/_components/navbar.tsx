@@ -10,7 +10,7 @@ import { configureNile } from "@/lib/AuthUtils";
 import { cookies } from "next/headers";
 import nile from "@/lib/NileServer";
 import { redirect } from "next/navigation";
-import  OrgSelector  from "@/components/org-selector";
+import OrgSelector from "@/components/org-selector";
 import { ModeToggle } from "@/components/mode-toggle";
 
 export const dynamic = "force-dynamic";
@@ -80,7 +80,8 @@ export const Navbar = async () => {
           }}
         /> */}
         <OrgSelector orgs={tenants} />
-        <ModeToggle/>
+        <a href="/dashboard/organization">Dashboard</a>
+        <ModeToggle />
         <UserAccountNav email={email} imageUrl={picture} name={name} />
       </div>
     </nav>

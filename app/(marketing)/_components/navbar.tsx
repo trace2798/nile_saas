@@ -45,6 +45,7 @@ export const Navbar = async () => {
       <div className="md:max-w-screen-2xl mx-auto flex items-center w-full justify-between">
         <Logo />
         <div className="space-x-4 w-[200px] max-w-[210px] flex items-center justify-between md:w-full">
+          <ModeToggle />
           {nile.userId ? (
             <Button variant={"ghost"} size="sm" asChild>
               <Link href="/dashboard">Dashboard</Link>
@@ -55,13 +56,10 @@ export const Navbar = async () => {
             </Button>
           )}
 
-          <ModeToggle />
           {nile.userId ? (
             <UserAccountNav email={email} imageUrl={picture} name={name} />
           ) : (
-            <Button size="sm" asChild>
-              <Link href="/sign-up">Get Taskify for free</Link>
-            </Button>
+            ""
           )}
         </div>
       </div>
