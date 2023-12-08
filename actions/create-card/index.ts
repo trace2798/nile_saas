@@ -38,6 +38,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //     },
     //   },
     // });
+    const userInfo = await nile.db("users.users").where({
+      id: nile.userId,
+    });
     const list = await nile
       .db("list")
       .join("board", "list.tenant_id", "=", "board.tenant_id")
@@ -77,12 +80,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       })
       .returning("*");
 
-    // await createAuditLog({
-    //   entityId: card.id,
-    //   entityTitle: card.title,
-    //   entityType: ENTITY_TYPE.CARD,
-    //   action: ACTION.CREATE,
-    // });
+    await nile.db("audit_log").insert({
+      user_id: nile.userId,
+      tenant_id: data.tenant_id,
+      board_id: boardId,
+      list_id: listId,
+      user_name: userInfo[0].name,
+      user_picture: userInfo[0].picture,
+      message: `${userInfo[0].name} created a card called ${card[0].title} on list: ${list[0].title}`,
+    });
   } catch (error) {
     return {
       error: "Failed to create.",

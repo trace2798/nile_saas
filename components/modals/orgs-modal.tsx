@@ -1,18 +1,6 @@
 "use client";
 
 import { Dialog, DialogContent, DialogHeader } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { useOrgs } from "@/hooks/use-orgs";
-import { zodResolver } from "@hookform/resolvers/zod";
-import axios from "axios";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import * as z from "zod";
-import { Input } from "../ui/input";
-import { useToast } from "../ui/use-toast";
-import { Spinner } from "../spinner";
-import { Button } from "../ui/button";
 import {
   Form,
   FormControl,
@@ -20,6 +8,18 @@ import {
   FormItem,
   FormMessage,
 } from "@/components/ui/form";
+import { Label } from "@/components/ui/label";
+import { useOrgs } from "@/hooks/use-orgs";
+import { zodResolver } from "@hookform/resolvers/zod";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
+import { Spinner } from "../spinner";
+import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 
 interface OrganizationModalProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -34,7 +34,6 @@ export function OrganizationModal({
   const orgs = useOrgs();
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -49,20 +48,12 @@ export function OrganizationModal({
       const response = await axios.post(`/api/tenant`, values);
       // console.log(values, "VALUES VALUES");
       form.reset();
-      toast({
-        title: "Tenant Created",
-        description: "Successfully tenant created",
-        variant: "default",
-      });
+      toast.success("Organization Created.");
       router.refresh();
-      // router.push("/dashboard");
+      orgs.onClose();
     } catch (error) {
       console.error(error);
-      toast({
-        title: "Error",
-        description: "Something went wrong.",
-        variant: "destructive",
-      });
+      toast.error("Error creating organization.");
     }
   };
   const isLoading = form.formState.isSubmitting;

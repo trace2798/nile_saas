@@ -24,6 +24,9 @@ const handler = async (data: InputType): Promise<ReturnType> => {
       error: "Unauthorized",
     };
   }
+  const userInfo = await nile.db("users.users").where({
+    id: nile.userId,
+  });
 
   let list;
 
@@ -71,6 +74,15 @@ const handler = async (data: InputType): Promise<ReturnType> => {
     //   entityType: ENTITY_TYPE.LIST,
     //   action: ACTION.CREATE,
     // })
+
+    await nile.db("audit_log").insert({
+      user_id: nile.userId,
+      tenant_id: data.tenant_id,
+      board_id: boardId,
+      user_name: userInfo[0].name,
+      user_picture: userInfo[0].picture,
+      message: `${userInfo[0].name} created a list called ${list[0].title} on Board: ${board[0].title}`,
+    });
   } catch (error) {
     return {
       error: "Failed to create.",
