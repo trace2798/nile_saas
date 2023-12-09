@@ -68,7 +68,12 @@ const MemberSelectForm = ({
       // form.reset();
       // toast("Member Added");
       // router.refresh();
-      const result = await addMember(tenantId, values.email, values.user_id, values.roles);
+      const result = await addMember(
+        tenantId,
+        values.email,
+        values.user_id,
+        values.roles
+      );
       if (result?.message === "User already exists in the organization") {
         toast("User already exists in the organization");
       } else {

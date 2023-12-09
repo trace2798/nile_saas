@@ -39,15 +39,27 @@ const page = async ({}) => {
     })
   );
   console.log(userInfos);
-  const users = await nile.db("users.users").select("id", "email");
-  console.log(users);
+  // const users = await nile.db("users.users").select("id", "email");
+  // console.log(users);
   return (
     <>
       <div className="w-full">
-        <MemberSelectForm users={users} tenantId={number} />
-        {/* {userInfos.some(
-          (user) => user.roles.includes("admin") || user.roles.includes("owner")
-        ) && <MemberSelectForm users={users} tenantId={number} />} */}
+        {userInfos.map((userInfo, index) => (
+          <>
+            {userInfo.id === nile.userId &&
+            (userInfo.roles.includes("owner") ||
+              userInfo.roles.includes("admin")) ? (
+              <MemberSelectForm
+                key={index}
+                users={userInfos}
+                tenantId={number}
+              />
+            ) : (
+              ""
+            )}
+          </>
+        ))}
+
         <BillboardClient data={userInfos} />
       </div>
     </>
