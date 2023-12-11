@@ -1,9 +1,7 @@
 import Link from "next/link";
-// import { auth } from "@clerk/nextjs";
 import { redirect } from "next/navigation";
 import { HelpCircle, User2 } from "lucide-react";
 
-// import { db } from "@/lib/db";
 import { Hint } from "@/components/hint";
 import { Skeleton } from "@/components/ui/skeleton";
 import { FormPopover } from "@/components/form/form-popover";
@@ -11,36 +9,13 @@ import { MAX_FREE_BOARDS } from "@/constants/boards";
 import nile from "@/lib/NileServer";
 import { configureNile } from "@/lib/AuthUtils";
 import { cookies } from "next/headers";
-// import { getAvailableCount } from "@/lib/org-limit";
-// import { checkSubscription } from "@/lib/subscription";
 
-export const BoardList = async ({
-  organizationId,
-}: {
-  organizationId: string;
-}) => {
-  //   const { orgId } = auth();
-
-  //   if (!orgId) {
-  //     return redirect("/select-org");
-  //   }
-
-  //   const boards = await db.board.findMany({
-  //     where: {
-  //       orgId,
-  //     },
-  //     orderBy: {
-  //       createdAt: "desc"
-  //     }
-  //   });
-
-  //   const availableCount = await getAvailableCount();
-  //   const isPro = await checkSubscription();
-  // configureNile(cookies().get("authData"), organizationId);
+export const BoardListPersonal = async ({ user_id }: { user_id: string }) => {
+  console.log(user_id);
   const boards = await nile
     .db("board_personal")
     .select("*")
-    .where({ tenant_id: organizationId });
+    .where({ user_id: user_id });
   // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context
   console.log(boards.length);
 
@@ -89,7 +64,7 @@ export const BoardList = async ({
   );
 };
 
-BoardList.Skeleton = function SkeletonBoardList() {
+BoardListPersonal.Skeleton = function SkeletonBoardList() {
   return (
     <div className="grid gird-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
       <Skeleton className="aspect-video h-full w-full p-2" />
