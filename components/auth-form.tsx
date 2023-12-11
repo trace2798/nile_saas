@@ -1,21 +1,19 @@
 "use client";
 
 import * as React from "react";
-
 import { cn } from "@/lib/utils";
-// import { Icons } from "@/components/icons"
-import { Button } from "./ui/button";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import axios from "axios";
-import * as z from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { useToast } from "./ui/use-toast";
-import { useState } from "react";
+import axios from "axios";
 import { useRouter } from "next/navigation";
-import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import * as z from "zod";
 import { Spinner } from "./spinner";
+import { Button } from "./ui/button";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "./ui/form";
+import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 
 interface UserAuthFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -28,7 +26,7 @@ const formSchema = z.object({
 export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,20 +44,12 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
       const response = await axios.post(`/api/sign-up`, values);
       console.log(response, "RESPONSE RESPONSE");
       form.reset();
-      toast({
-        title: "User account created",
-        description: "User account created",
-        variant: "default",
-      });
+      toast.success("Account created successfully");
       router.refresh();
       router.push("/dashboard");
     } catch (error) {
       console.error(error);
-      toast({
-        title: "Failed to submit data",
-        description: "Make sure all fields are filled up.",
-        variant: "destructive",
-      });
+      toast.error("Error creating account");
     }
   };
   const isLoading = form.formState.isSubmitting;
@@ -82,7 +72,7 @@ export function UserAuthForm({ className, ...props }: UserAuthFormProps) {
                   <FormItem>
                     <FormControl>
                       <Input
-                        id="name"
+                        id="preferredName"
                         placeholder="John Doe"
                         type="text"
                         autoCorrect="off"

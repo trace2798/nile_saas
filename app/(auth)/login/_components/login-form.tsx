@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { useToast } from "@/components/ui/use-toast";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import * as z from "zod";
+import { toast } from "sonner";
 
 interface UserAuthLoginFormProps extends React.HTMLAttributes<HTMLDivElement> {}
 
@@ -36,7 +36,6 @@ export function UserAuthLoginForm({
 }: UserAuthLoginFormProps) {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-  const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -52,19 +51,11 @@ export function UserAuthLoginForm({
       const response = await axios.post(`/api/login`, values);
       // console.log(values, "VALUES VALUES");
       form.reset();
-      toast({
-        title: "Success",
-        description: "Successfully logged in",
-        variant: "default",
-      });
+      toast.success("Successfully logged in");
       router.push("/dashboard");
     } catch (error) {
       console.error(error);
-      toast({
-        title: "Invalid credentials",
-        description: "Try again.",
-        variant: "destructive",
-      });
+      toast.error("Error logging in");
     }
   };
   const isLoading = form.formState.isSubmitting;
