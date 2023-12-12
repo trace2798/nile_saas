@@ -39,6 +39,8 @@ const page = async ({}) => {
     })
   );
   console.log(userInfos);
+  const allUsers = await nile.db("users.users").select("id", "email");
+  console.log(allUsers);
   // const users = await nile.db("users.users").select("id", "email");
   // console.log(users);
   return (
@@ -51,7 +53,7 @@ const page = async ({}) => {
               userInfo.roles.includes("admin")) ? (
               <MemberSelectForm
                 key={index}
-                users={userInfos}
+                users={allUsers}
                 tenantId={number}
               />
             ) : (

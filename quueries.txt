@@ -34,6 +34,10 @@ CREATE TABLE "card" (
     "list_id" UUID NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "status" TEXT,
+    "assignee_id" UUID,
+    "assignee_name" TEXT,
+    "due_date" TEXT,
     CONSTRAINT "card_pkey" PRIMARY KEY ("id", "tenant_id"),
     CONSTRAINT "card_list_id_fkey" FOREIGN KEY ("list_id", "tenant_id") REFERENCES "list"("id", "tenant_id") ON DELETE CASCADE
 );
