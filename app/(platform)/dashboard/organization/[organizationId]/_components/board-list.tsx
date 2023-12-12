@@ -38,7 +38,7 @@ export const BoardList = async ({
   //   const isPro = await checkSubscription();
   // configureNile(cookies().get("authData"), organizationId);
   const boards = await nile
-    .db("board_personal")
+    .db("board")
     .select("*")
     .where({ tenant_id: organizationId });
   // .orderBy("created_at", "desc"); // no need for where clause because we previously set Nile context

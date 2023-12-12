@@ -4,7 +4,7 @@ import { configureNile } from "@/lib/AuthUtils";
 import nile from "@/lib/NileServer";
 import { cookies } from "next/headers";
 import { FC, Suspense } from "react";
-import { BoardListPersonal } from "./_components/board-list-personal";
+// import { BoardListPersonal } from "./_components/board-list-personal";
 
 interface pageProps {}
 
